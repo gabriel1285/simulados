@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulados – Altaneiro</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#FFF8E7;--ink:#2B2A4C;--muted:#6B6A86;--roxo:#7B5CD6;--roxo-claro:#EDE7FF;--verde:#3BB273;--laranja:#FF8C42;--borda:#F1E6C8}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2',system-ui,sans-serif;font-size:19px;
+       background-image:radial-gradient(#FFE7A8 2px,transparent 2px);background-size:28px 28px}
+  .wrap{max-width:860px;margin:0 auto;padding:16px}
+  header{text-align:center;margin:18px 0 22px}
+  header .logo{font-size:56px;animation:pula 2s infinite}
+  header h1{margin:0;font-size:34px;color:var(--roxo);line-height:1.1}
+  header p{margin:6px 0 0;color:var(--muted);font-weight:600}
+  @keyframes pula{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .filtros{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+  .filtro{font-family:inherit;font-size:17px;font-weight:700;border:3px solid #E4DCC2;background:#fff;color:var(--ink);border-radius:999px;padding:4px 14px;cursor:pointer}
+  .filtro.on{border-color:var(--roxo);background:var(--roxo-claro);color:var(--roxo)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+  .card{display:flex;flex-direction:column;background:#fff;border:3px solid var(--borda);border-radius:24px;padding:18px;
+        box-shadow:0 6px 0 rgba(43,42,76,.12);text-decoration:none;color:inherit;transition:transform .12s}
+  .card:hover{transform:translateY(-4px);border-color:#C9B8F5}
+  .card .emoji{font-size:44px;line-height:1}
+  .card h2{margin:8px 0 2px;font-size:23px}
+  .card .sub{color:var(--muted);font-size:16px;font-weight:600}
+  .card .temas{margin:10px 0;font-size:16px}
+  .tag{display:inline-block;background:var(--roxo-claro);color:var(--roxo);font-weight:700;border-radius:999px;padding:2px 10px;font-size:14px;margin:2px}
+  .prog{margin-top:auto;padding-top:10px;border-top:2px dashed var(--borda);font-size:16px;font-weight:700}
+  .prog .feita{color:var(--verde)} .prog .nao{color:var(--muted)}
+  .btn{display:block;text-align:center;margin-top:10px;background:var(--verde);color:#fff;font-weight:800;border-radius:16px;padding:10px;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+  .vazio{text-align:center;color:var(--muted);padding:30px}
+  footer{text-align:center;color:var(--muted);font-size:15px;margin:26px 0 10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">📚</div>
+    <h1>Simulados</h1>
+    <p>Escolha uma prova para treinar 💜</p>
+  </header>
+  <div class="filtros" id="filtros"></div>
+  <div class="grid" id="lista"></div>
+  <footer>Feito com carinho para estudar em casa</footer>
+</div>
+
+<script>
+/* =========================================================
+   PARA ADICIONAR UM NOVO SIMULADO: copie um bloco { ... } abaixo,
+   troque os dados e coloque o arquivo .html na mesma pasta.
+   - chaveNotas: o nome usado no localStorage pelo simulado (opcional).
+   - provas: quantas provas existem dentro do arquivo.
+   ========================================================= */
+const SIMULADOS = [
+  {
+    arquivo: 'altaneiro-port-3tri.html',
+    titulo: 'Português',
+    sub: '2º ano • 3º trimestre',
+    materia: 'Português',
+    emoji: '🐸',
+    temas: ['Sinônimos e antônimos','Prefixos','Sob e sobre','S e Z','X e CH','Singular e plural','Feminino e masculino','Interpretação'],
+    chaveNotas: 'altaneiro-port-3tri-notas',
+    provas: 3
+  }
+];
+
+let filtro = 'Todas';
+
+function progresso(s){
+  if(!s.chaveNotas) return '';
+  let notas = {};
+  try{ notas = JSON.parse(localStorage.getItem(s.chaveNotas) || '{}'); }catch(e){}
+  const feitas = Object.keys(notas).length;
+  if(!feitas) return `<span class="nao">⭐ ${s.provas} provas • nenhuma feita ainda</span>`;
+  const det = Object.keys(notas).sort().map(k=>`P${+k+1}: ${notas[k].c}/${notas[k].t}`).join(' • ');
+  return `<span class="feita">✅ ${feitas} de ${s.provas} feitas</span><br><span style="font-weight:600">${det}</span>`;
+}
+
+function render(){
+  const materias = ['Todas', ...new Set(SIMULADOS.map(s=>s.materia))];
+  document.getElementById('filtros').innerHTML = materias.length > 2
+    ? materias.map(m=>`<button class="filtro ${m===filtro?'on':''}" data-m="${m}">${m}</button>`).join('')
+    : '';
+  document.querySelectorAll('.filtro').forEach(b=>b.onclick=()=>{filtro=b.dataset.m;render();});
+
+  const lista = SIMULADOS.filter(s=>filtro==='Todas'||s.materia===filtro);
+  document.getElementById('lista').innerHTML = lista.length ? lista.map(s=>`
+    <a class="card" href="${s.arquivo}">
+      <div class="emoji">${s.emoji}</div>
+      <h2>${s.titulo}</h2>
+      <div class="sub">${s.sub}</div>
+      <div class="temas">${s.temas.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div class="prog">${progresso(s)}</div>
+      <span class="btn">Começar 🚀</span>
+    </a>`).join('') : '<div class="vazio">Nenhum simulado aqui ainda.</div>';
+}
+render();
+</script>
+</body>
+</html>
