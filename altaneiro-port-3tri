@@ -1,1 +1,570 @@
-prova de portugues
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Missão Português – 2º ano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF8E7; --card:#FFFFFF; --ink:#2B2A4C; --muted:#6B6A86;
+    --verde:#3BB273; --verde-esc:#2A8A57; --roxo:#7B5CD6; --roxo-claro:#EDE7FF;
+    --amarelo:#FFC93C; --laranja:#FF8C42; --vermelho:#E8505B; --azul:#3A86FF;
+    --sombra:0 6px 0 rgba(43,42,76,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2',system-ui,'Comic Sans MS',sans-serif;font-size:20px;line-height:1.35;
+       background-image:radial-gradient(#FFE7A8 2px,transparent 2px);background-size:28px 28px}
+  .wrap{max-width:820px;margin:0 auto;padding:16px}
+  header{display:flex;align-items:center;gap:12px;margin:8px 0 16px}
+  header .logo{font-size:48px;animation:pula 2s infinite}
+  header h1{margin:0;font-size:30px;line-height:1.1;color:var(--roxo)}
+  header small{display:block;color:var(--muted);font-size:16px;font-weight:600}
+  @keyframes pula{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .card{background:var(--card);border-radius:24px;padding:22px;box-shadow:var(--sombra);border:3px solid #F1E6C8;margin-bottom:16px}
+  h2{margin:0 0 10px;font-size:26px}
+  .btn{font-family:inherit;font-size:21px;font-weight:700;border:none;border-radius:18px;padding:12px 22px;cursor:pointer;
+       box-shadow:0 5px 0 rgba(0,0,0,.18);transition:transform .08s;color:#fff;background:var(--roxo)}
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.verde{background:var(--verde)} .btn.laranja{background:var(--laranja)} .btn.azul{background:var(--azul)}
+  .btn.branco{background:#fff;color:var(--ink);border:3px solid #E4DCC2}
+  .btn.peq{font-size:17px;padding:8px 14px}
+  input[type=text]{font-family:inherit;font-size:24px;padding:10px 16px;border-radius:16px;border:3px solid #D9CFF5;width:100%;outline:none}
+  input[type=text]:focus{border-color:var(--roxo)}
+  .modos{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+  .modo{flex:1 1 220px;border:3px solid #E4DCC2;border-radius:18px;padding:12px;cursor:pointer;background:#fff}
+  .modo.on{border-color:var(--roxo);background:var(--roxo-claro)}
+  .modo b{display:block;font-size:20px}
+  .modo span{font-size:16px;color:var(--muted)}
+  .topo{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .tag{display:inline-block;background:var(--roxo-claro);color:var(--roxo);font-weight:700;border-radius:999px;padding:4px 12px;font-size:16px}
+  .barra{height:18px;background:#EFE6CC;border-radius:999px;overflow:hidden;margin:4px 0 14px;position:relative}
+  .barra>div{height:100%;background:linear-gradient(90deg,var(--verde),var(--amarelo));border-radius:999px;transition:width .4s}
+  .num{font-weight:800;color:var(--laranja);font-size:18px}
+  .pergunta{font-size:25px;font-weight:700;margin:6px 0 16px}
+  .lacuna{display:inline-block;min-width:80px;border-bottom:4px dashed var(--roxo);text-align:center;color:var(--roxo);padding:0 6px}
+  .opcoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+  .op{font-family:inherit;font-size:23px;font-weight:700;background:#fff;color:var(--ink);border:3px solid #E4DCC2;border-radius:18px;
+      padding:14px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;box-shadow:0 4px 0 #E4DCC2}
+  .op .letra{flex:0 0 36px;height:36px;border-radius:50%;background:var(--roxo-claro);color:var(--roxo);display:grid;place-items:center;font-size:18px}
+  .op:hover{border-color:#C9B8F5}
+  .op.sel{border-color:var(--roxo);background:var(--roxo-claro);box-shadow:0 4px 0 var(--roxo)}
+  .op.sel .letra{background:var(--roxo);color:#fff}
+  .op.certa{border-color:var(--verde);background:#E3F7EC;box-shadow:0 4px 0 var(--verde)}
+  .op.errada{border-color:var(--vermelho);background:#FDE6E8;box-shadow:0 4px 0 var(--vermelho)}
+  .op:disabled{cursor:default}
+  .acoes{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:18px;flex-wrap:wrap}
+  .historia{background:#FFFBEF;border:3px dashed var(--amarelo);border-radius:20px;padding:16px 18px;margin-bottom:16px}
+  .historia h3{margin:0 0 6px;color:var(--laranja);font-size:23px}
+  .historia p{margin:6px 0;font-size:20px}
+  .historia .moral{font-weight:700;color:var(--verde-esc)}
+  .feedback{border-radius:18px;padding:14px 16px;margin-top:16px;font-size:20px;font-weight:600}
+  .feedback.ok{background:#E3F7EC;border:3px solid var(--verde)}
+  .feedback.no{background:#FFF1DE;border:3px solid var(--laranja)}
+  .modal-fundo{position:fixed;inset:0;background:rgba(43,42,76,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+  .modal-fundo.on{display:flex}
+  .modal{background:#fff;border-radius:26px;padding:24px;max-width:460px;width:100%;text-align:center;box-shadow:0 10px 0 rgba(0,0,0,.2);animation:entra .2s}
+  .modal .grande{font-size:56px}
+  .modal .esc{display:inline-block;background:var(--roxo-claro);color:var(--roxo);border-radius:14px;padding:6px 14px;font-weight:800;font-size:24px;margin:8px 0 16px}
+  .modal .acoes{justify-content:center}
+  @keyframes entra{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  .toast{position:fixed;left:50%;top:22px;transform:translateX(-50%);background:var(--verde);color:#fff;font-weight:800;padding:10px 20px;border-radius:999px;z-index:60;box-shadow:var(--sombra);animation:entra .2s}
+  .placar{text-align:center}
+  .placar .estrelas{font-size:46px;letter-spacing:4px}
+  .placar .nota{font-size:56px;font-weight:800;color:var(--roxo);line-height:1}
+  table{width:100%;border-collapse:collapse;font-size:18px}
+  td,th{padding:8px 6px;border-bottom:2px solid #F1E6C8;text-align:left}
+  th{color:var(--muted);font-size:16px}
+  .mini{height:12px;background:#EFE6CC;border-radius:999px;overflow:hidden;min-width:70px}
+  .mini>div{height:100%}
+  .erro{border:3px solid #F6D2D5;border-radius:18px;padding:12px 14px;margin:10px 0;background:#FFFBFB}
+  .erro .q{font-weight:700}
+  .erro .r{margin-top:4px;font-size:18px}
+  .reforco{border-left:8px solid var(--laranja);background:#FFF6EC;border-radius:14px;padding:10px 14px;margin:10px 0}
+  .reforco b{font-size:20px}
+  .reforco .pg{color:var(--roxo);font-weight:700;font-size:17px}
+  .falar{background:none;border:3px solid #E4DCC2;border-radius:14px;font-size:20px;cursor:pointer;padding:4px 10px;font-family:inherit}
+  .confete{position:fixed;top:-40px;font-size:28px;z-index:40;animation:cai linear forwards;pointer-events:none}
+  @keyframes cai{to{transform:translateY(110vh) rotate(540deg)}}
+  footer{text-align:center;color:var(--muted);font-size:15px;margin:20px 0}
+  @media (max-width:520px){body{font-size:18px}.pergunta{font-size:22px}.op{font-size:20px}header h1{font-size:24px}}
+  @media print{body{background:#fff}.no-print,.btn,.falar{display:none!important}.card{box-shadow:none;border:1px solid #ccc}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">🐸</div>
+    <div><h1>Missão Português</h1><small>2º ano • Prova da Rãzinha Lili</small></div>
+  </header>
+  <main id="app"></main>
+  <footer class="no-print">Feito com carinho para estudar em casa 💜</footer>
+</div>
+
+<div class="modal-fundo" id="modal"><div class="modal" id="modalBox"></div></div>
+
+<script>
+/* =========================================================
+   TEMAS (com dica e páginas para revisar)
+   ========================================================= */
+const TOPICOS = {
+  sin:{nome:'Sinônimos e antônimos', emoji:'🔁', pag:'Livro p. 72 a 75 e p. 98',
+       dica:'Sinônimos têm o MESMO sentido (bonito = lindo). Antônimos têm sentido CONTRÁRIO (alto × baixo).'},
+  pre:{nome:'Prefixos IN, IM e DES', emoji:'🧩', pag:'Livro p. 72 a 74 e p. 131',
+       dica:'IN, IM e DES na frente da palavra deixam o sentido contrário: feliz → infeliz, fazer → desfazer. Antes de P e B usamos IM: impossível, imperfeito.'},
+  sob:{nome:'Sob e sobre', emoji:'⬆️', pag:'Livro p. 98 e 99',
+       dica:'SOB = embaixo. SOBRE = em cima. Dica: SOBRE é maior, fica EM CIMA!'},
+  sz:{nome:'Uso de S, SS e Z', emoji:'🐍', pag:'Livro p. 135 a 139 e p. 188',
+       dica:'S sozinho entre vogais tem som de Z (casa, mesa). Para ter som de S entre vogais usamos SS (pássaro, vassoura). Nenhuma palavra começa com SS. Algumas palavras usam o Z mesmo: natureza, zebra.'},
+  xch:{nome:'Uso de X e CH', emoji:'❌', pag:'Livro p. 188, 192 e 193',
+       dica:'Depois de ME e de EN usamos X (mexerica, enxada). Exceções: mecha, encher, enchente. Em exemplo, exato e exército o X tem som de Z.'},
+  num:{nome:'Singular e plural', emoji:'🐸🐸', pag:'Livro p. 162 a 168',
+       dica:'Singular = um só. Plural = mais de um, quase sempre com S no final. Quando uma palavra vai para o plural, as outras da frase vão junto: os touros são fortes.'},
+  gen:{nome:'Feminino e masculino', emoji:'👦👧', pag:'Fichas do caderno (p. 247)',
+       dica:'Se dá para usar O ou OS antes da palavra, ela é masculina (o sol). Se usamos A ou AS, ela é feminina (a flor).'},
+  int:{nome:'Interpretação de texto', emoji:'📖', pag:'Livro p. 131 e p. 165 a 168',
+       dica:'Leia a história com calma, duas vezes se precisar. Antes de marcar, volte ao texto e procure a resposta lá.'}
+};
+
+/* =========================================================
+   BANCO DE QUESTÕES
+   tipos: mc (múltipla escolha) | fill (complete a lacuna ___) | vf | type (escrever)
+   ========================================================= */
+const BANCO = {
+ sin:[
+  {tipo:'mc', q:'Qual palavra é SINÔNIMO de bonito? (quer dizer a mesma coisa)', op:['lindo','feio','triste','baixo'], a:'lindo', exp:'Bonito e lindo querem dizer a mesma coisa. São sinônimos!'},
+  {tipo:'mc', q:'Qual é o ANTÔNIMO (o contrário) de alegria?', op:['tristeza','felicidade','risada','festa'], a:'tristeza', exp:'Alegria é o contrário de tristeza. Felicidade é sinônimo de alegria.'},
+  {tipo:'mc', q:'Qual palavra é SINÔNIMO de rápido?', op:['veloz','devagar','lento','parado'], a:'veloz', exp:'Rápido = veloz. Devagar e lento são antônimos de rápido.'},
+  {tipo:'mc', q:'O contrário de preguiçoso é…', op:['trabalhador','forte','dorminhoco','cansado'], a:'trabalhador', exp:'Preguiçoso é quem não gosta de fazer as coisas. O contrário é trabalhador (esforçado). Forte é o contrário de fraco!'},
+  {tipo:'fill', q:'O contrário de sortudo é ___.', op:['azarado','feliz','alegre'], a:'azarado', exp:'Sortudo × azarado: palavras de sentido contrário.'},
+  {tipo:'mc', q:'As palavras ACABAR e CONCLUIR são…', op:['sinônimos','antônimos','palavras no plural'], a:'sinônimos', exp:'Acabar e concluir querem dizer a mesma coisa, então são sinônimos.'},
+  {tipo:'mc', q:'Qual dupla é de ANTÔNIMOS?', op:['alto e baixo','belo e bonito','alegria e felicidade','acabar e concluir'], a:'alto e baixo', exp:'Alto e baixo têm sentidos contrários. As outras duplas são sinônimos.'},
+  {tipo:'fill', q:'De noite eu me deito. De manhã eu me ___.', op:['levanto','deito','durmo'], a:'levanto', exp:'Deitar × levantar: são antônimos.'},
+  {tipo:'mc', q:'Qual é o antônimo de quente?', op:['frio','calor','fervendo','morno'], a:'frio', exp:'Quente × frio. Dia quente, dia frio!'}
+ ],
+ pre:[
+  {tipo:'mc', q:'Qual palavra quer dizer o CONTRÁRIO de feliz?', op:['infeliz','desfeliz','imfeliz','felizinho'], a:'infeliz', exp:'Colocamos o prefixo IN: feliz → infeliz.'},
+  {tipo:'fill', q:'Complete com o prefixo certo: ___possível', op:['im','in','des'], a:'im', exp:'Antes de P e B usamos M: IMpossível.'},
+  {tipo:'mc', q:'Qual é o contrário de fazer?', op:['desfazer','infazer','imfazer','refazer'], a:'desfazer', exp:'Com o prefixo DES: fazer → desfazer.'},
+  {tipo:'mc', q:'Por que escrevemos IMperfeito com M, e não com N?', op:['Porque vem antes da letra P','Porque a palavra é grande','Porque começa com I'], a:'Porque vem antes da letra P', exp:'Regra de ouro: antes de P e B, sempre M! (imperfeito, impossível).'},
+  {tipo:'fill', q:'O nó estava apertado, mas o menino conseguiu ___amarrar a corda.', op:['des','in','im'], a:'des', exp:'Amarrar → desamarrar, com o prefixo DES.'},
+  {tipo:'mc', q:'Uma pessoa que NÃO é fiel é…', op:['infiel','desfiel','imfiel'], a:'infiel', exp:'Fiel → infiel, com o prefixo IN.'},
+  {tipo:'mc', q:'A sala estava cheia. Todos saíram e ela ficou…', op:['desocupada','inocupada','imocupada'], a:'desocupada', exp:'Ocupar → desocupar, com o prefixo DES.'},
+  {tipo:'mc', q:'Quem não é leal é…', op:['desleal','inleal','imleal'], a:'desleal', exp:'Leal → desleal, com o prefixo DES.'}
+ ],
+ sob:[
+  {tipo:'fill', q:'O baú estava escondido ___ as raízes da árvore.', op:['sob','sobre'], a:'sob', exp:'As raízes ficam embaixo da terra. Embaixo = SOB.'},
+  {tipo:'fill', q:'Ao terminar o café, coloquei a xícara ___ a mesa.', op:['sob','sobre'], a:'sobre', exp:'A xícara fica em cima da mesa. Em cima = SOBRE.'},
+  {tipo:'fill', q:'O gato dormia ___ a cama, bem escondidinho lá embaixo.', op:['sob','sobre'], a:'sob', exp:'Lá embaixo da cama = SOB a cama.'},
+  {tipo:'fill', q:'O passarinho pousou ___ o telhado.', op:['sob','sobre'], a:'sobre', exp:'O passarinho ficou em cima do telhado = SOBRE.'},
+  {tipo:'mc', q:'A palavra SOB quer dizer…', op:['embaixo','em cima','do lado'], a:'embaixo', exp:'SOB = embaixo.'},
+  {tipo:'mc', q:'A palavra SOBRE quer dizer…', op:['em cima','embaixo','dentro'], a:'em cima', exp:'SOBRE = em cima.'},
+  {tipo:'fill', q:'Ficamos ___ o guarda-chuva para não nos molhar.', op:['sob','sobre'], a:'sob', exp:'Ficamos embaixo do guarda-chuva = SOB.'},
+  {tipo:'fill', q:'O homem andava ___ a grama.', op:['sob','sobre'], a:'sobre', exp:'Andamos em cima da grama = SOBRE.'}
+ ],
+ sz:[
+  {tipo:'mc', q:'Em qual palavra o S tem som de Z?', op:['casa','sapo','pássaro','sol'], a:'casa', exp:'Em casa, o S está sozinho entre duas vogais, por isso tem som de Z.'},
+  {tipo:'fill', q:'Complete a palavra: va___oura', op:['ss','s','z'], a:'ss', exp:'Vassoura: o som é de S entre vogais, então usamos SS.'},
+  {tipo:'fill', q:'Complete a palavra: me___a', op:['s','ss','z'], a:'s', exp:'Mesa: S sozinho entre vogais com som de Z.'},
+  {tipo:'fill', q:'Complete a palavra: pá___aro', op:['ss','s','z'], a:'ss', exp:'Pássaro: som de S entre vogais pede SS.'},
+  {tipo:'fill', q:'A nature___a é muito bonita!', op:['z','s','ss'], a:'z', exp:'Natureza se escreve com Z, como beleza e certeza.'},
+  {tipo:'vf', q:'VERDADEIRO ou FALSO? Existem palavras que começam com SS.', a:'Falso', exp:'Nenhuma palavra começa com SS. O SS só aparece entre vogais.'},
+  {tipo:'vf', q:'VERDADEIRO ou FALSO? Quando o S aparece sozinho entre duas vogais, ele tem som de Z.', a:'Verdadeiro', exp:'Isso mesmo: casa, mesa, rosa, música.'},
+  {tipo:'mc', q:'Qual palavra está escrita CORRETAMENTE?', op:['tesouro','tessouro','tezouro'], a:'tesouro', exp:'Tesouro: S entre vogais com som de Z.'},
+  {tipo:'fill', q:'A ___ebra tem listras pretas e brancas.', op:['z','s','ss'], a:'z', exp:'Zebra começa com Z. No começo da palavra, o S tem som de S (sapo), então para som de Z usamos Z.'},
+  {tipo:'mc', q:'Em qual palavra o S tem som de S (e não de Z)?', op:['passado','rosa','música','asa'], a:'passado', exp:'Passado tem SS, por isso o som é de S. Nas outras, o S sozinho tem som de Z.'}
+ ],
+ xch:[
+  {tipo:'fill', q:'Complete a palavra: me___erica', op:['x','ch'], a:'x', exp:'Depois de ME usamos X: mexerica, mexer, México.'},
+  {tipo:'fill', q:'Complete a palavra: en___ada', op:['x','ch'], a:'x', exp:'Depois de EN usamos X: enxada, enxame, enxergar.'},
+  {tipo:'fill', q:'O rio encheu e veio a en___ente.', op:['ch','x'], a:'ch', exp:'Enchente é uma exceção! Vem de cheio, por isso é com CH.'},
+  {tipo:'mc', q:'Em qual palavra o X tem som de Z?', op:['exemplo','caixa','mexer','lixeira'], a:'exemplo', exp:'Em exemplo, exato e exército, o X tem som de Z.'},
+  {tipo:'fill', q:'O lenhador cortava lenha com o seu ma___ado.', op:['ch','x'], a:'ch', exp:'Machado se escreve com CH, como riacho.'},
+  {tipo:'mc', q:'Com os óculos, o vovô consegue… Qual palavra está escrita CORRETAMENTE?', op:['enxergar','enchergar','emxergar'], a:'enxergar', exp:'Depois de EN usamos X: enxergar.'},
+  {tipo:'mc', q:'Em qual palavra o X tem som de CH?', op:['puxar','exato','exército','exemplo'], a:'puxar', exp:'Em puxar o X tem o som de CH. Nas outras, tem som de Z.'},
+  {tipo:'fill', q:'Não pode me___er no bolo antes da festa!', op:['x','ch'], a:'x', exp:'Depois de ME usamos X: mexer.'},
+  {tipo:'mc', q:'Guardei os brinquedos na… Qual palavra está escrita CORRETAMENTE?', op:['caixa','caicha','caxa'], a:'caixa', exp:'Caixa se escreve com X, como baixo e peixe.'}
+ ],
+ num:[
+  {tipo:'fill', q:'Uma maçã. Duas ___.', op:['maçãs','maçã','maçans'], a:'maçãs', exp:'Para mais de um, colocamos S no final: maçãs.'},
+  {tipo:'mc', q:'Qual palavra está no SINGULAR (é só um)?', op:['rapaz','rapazes','patos','sombras'], a:'rapaz', exp:'Rapaz é só um. Rapazes, patos e sombras estão no plural.'},
+  {tipo:'type', q:'Escreva no PLURAL: livro →', ans:['livros'], exp:'Livro → livros.'},
+  {tipo:'mc', q:'Passe para o plural: “O touro é forte.”', op:['Os touros são fortes.','Os touro é forte.','O touros são forte.'], a:'Os touros são fortes.', exp:'Quando o touro vai para o plural, as outras palavras vão junto: Os touros são fortes.'},
+  {tipo:'type', q:'Escreva no SINGULAR: dentes →', ans:['dente'], exp:'Dentes → dente (um só).'},
+  {tipo:'mc', q:'Qual é o plural de flor?', op:['flores','flors','floris'], a:'flores', exp:'Flor → flores. Algumas palavras ganham ES no plural.'},
+  {tipo:'mc', q:'Como fica “A rã é pequena” no plural?', op:['As rãs são pequenas.','As rã é pequena.','A rãs são pequena.'], a:'As rãs são pequenas.', exp:'Tudo vai para o plural junto: As rãs são pequenas.'},
+  {tipo:'type', q:'Escreva no PLURAL: bola →', ans:['bolas'], exp:'Bola → bolas.'},
+  {tipo:'mc', q:'Que letra usamos no fim da palavra para mostrar que é mais de um?', op:['S','A','O','M'], a:'S', exp:'A letra S no fim da palavra indica plural.'}
+ ],
+ gen:[
+  {tipo:'fill', q:'___ sol brilha no céu.', op:['O','A'], a:'O', exp:'Dizemos O sol, então sol é masculino.'},
+  {tipo:'fill', q:'___ flor é cheirosa.', op:['A','O'], a:'A', exp:'Dizemos A flor, então flor é feminino.'},
+  {tipo:'mc', q:'Qual palavra é do FEMININO?', op:['casa','céu','vento','sol'], a:'casa', exp:'A casa → feminino. O céu, o vento, o sol → masculino.'},
+  {tipo:'mc', q:'Qual palavra é do MASCULINO?', op:['vento','natureza','flor','casa'], a:'vento', exp:'O vento → masculino.'},
+  {tipo:'type', q:'Escreva o FEMININO de menino:', ans:['menina','a menina'], exp:'O menino → a menina.'},
+  {tipo:'mc', q:'O feminino de gato é…', op:['gata','gatinho','gatos'], a:'gata', exp:'O gato → a gata.'},
+  {tipo:'mc', q:'Dizemos “A natureza”. Então natureza é…', op:['feminino','masculino'], a:'feminino', exp:'Se usamos A antes do nome, ele é feminino.'},
+  {tipo:'type', q:'Escreva o FEMININO de professor:', ans:['professora','a professora'], exp:'O professor → a professora.'}
+ ]
+};
+
+/* ============ HISTÓRIAS (interpretação) ============ */
+const HISTORIAS = [
+ {titulo:'A rã e o touro', emoji:'🐸🐂',
+  texto:['Numa lagoa morava uma rã pequenina. Um dia, ela viu um touro enorme bebendo água.',
+         '— Nossa! Eu também quero ser grande assim! — disse a rã.',
+         'Então ela começou a encher a barriga de ar. Inchou, inchou, inchou…',
+         '— Já estou do tamanho dele? — perguntou às amigas.',
+         '— Ainda não! — responderam as outras rãs.',
+         'A rã inchou mais um pouquinho, até que… POF! Murchou de uma vez e caiu cansada na beira da lagoa.'],
+  moral:'Moral: cada um tem o seu tamanho. Não precisamos querer ser iguais aos outros!',
+  qs:[
+   {tipo:'mc', q:'Quem a rã viu bebendo água na lagoa?', op:['um touro','um sapo','um cisne','um corvo'], a:'um touro', exp:'No começo da história, a rã vê um touro enorme bebendo água.'},
+   {tipo:'mc', q:'O que a rã queria?', op:['Ficar grande como o touro','Nadar mais rápido','Comer insetos','Ir embora da lagoa'], a:'Ficar grande como o touro', exp:'Ela disse: “Eu também quero ser grande assim!”'},
+   {tipo:'mc', q:'Qual é o ensinamento (a moral) da história?', op:['Cada um tem o seu tamanho e devemos gostar de quem somos','Devemos comer muito para crescer','Rãs não gostam de touros'], a:'Cada um tem o seu tamanho e devemos gostar de quem somos', exp:'A moral está no final: não precisamos querer ser iguais aos outros.'},
+   {tipo:'mc', q:'Na história, a rã era “pequenina” e o touro era…', op:['enorme','baixinho','pequeno'], a:'enorme', exp:'Pequenina × enorme: são antônimos!'}
+  ]},
+ {titulo:'As abelhas e o apicultor', emoji:'🐝🍯',
+  texto:['O apicultor é a pessoa que cuida das abelhas e recolhe o mel.',
+         'Certo dia, o apicultor saiu de casa. Enquanto ele estava fora, um ladrão chegou de mansinho e roubou todo o mel das colmeias.',
+         'Quando o apicultor voltou, foi ver as caixas das abelhas. As abelhas, muito bravas, voaram sobre ele e o picaram!',
+         '— Ai, ai! Vocês deixaram o ladrão ir embora e agora picam justo eu, que cuido de vocês todos os dias? — reclamou o apicultor.'],
+  moral:'Moral: devemos pensar bem antes de culpar alguém. Às vezes ficamos bravos com quem só quer nos ajudar.',
+  qs:[
+   {tipo:'mc', q:'O que é um apicultor?', op:['A pessoa que cuida das abelhas','Um tipo de abelha','Um ladrão de mel'], a:'A pessoa que cuida das abelhas', exp:'A primeira frase do texto explica: o apicultor cuida das abelhas e recolhe o mel.'},
+   {tipo:'mc', q:'Quem roubou o mel das colmeias?', op:['Um ladrão','O apicultor','As abelhas','Um urso'], a:'Um ladrão', exp:'Enquanto o apicultor estava fora, um ladrão roubou o mel.'},
+   {tipo:'mc', q:'Por que o apicultor ficou chateado?', op:['As abelhas picaram justo quem cuida delas','Ele não gosta de mel','Choveu muito naquele dia'], a:'As abelhas picaram justo quem cuida delas', exp:'Ele reclamou: as abelhas deixaram o ladrão ir e picaram quem cuida delas.'},
+   {tipo:'mc', q:'“As abelhas voaram SOBRE ele.” A palavra SOBRE quer dizer…', op:['em cima','embaixo','longe'], a:'em cima', exp:'SOBRE = em cima. As abelhas voaram em cima do apicultor.'}
+  ]},
+ {titulo:'O corvo e o cisne', emoji:'🐦‍⬛🦢',
+  texto:['Um corvo de penas bem pretas vivia perto das casas, onde sempre encontrava comida.',
+         'Um dia, ele viu um cisne branquinho nadando no lago e ficou com inveja.',
+         '— Aposto que ele é branco porque vive se lavando na água! — pensou o corvo.',
+         'Então o corvo deixou a sua casa e foi morar no lago. Ele se lavava de manhã, de tarde e de noite… mas suas penas continuaram pretas!',
+         'E, como no lago não havia a comida de que ele gostava, o corvo ficou com muita fome.'],
+  moral:'Moral: não adianta querer ser igual ao outro. Cada um é especial do seu jeito.',
+  qs:[
+   {tipo:'mc', q:'Por que o corvo ficou com inveja do cisne?', op:['Queria ser branco como o cisne','Queria nadar como o cisne','Queria cantar como o cisne'], a:'Queria ser branco como o cisne', exp:'O corvo viu o cisne branquinho e quis ter as penas brancas também.'},
+   {tipo:'mc', q:'O que aconteceu com as penas do corvo depois de tanto se lavar?', op:['Continuaram pretas','Ficaram brancas','Caíram todas'], a:'Continuaram pretas', exp:'O texto diz: “mas suas penas continuaram pretas!”'},
+   {tipo:'mc', q:'Por que o corvo ficou com fome?', op:['No lago não tinha a comida de que ele gostava','Ele esqueceu de comer','O cisne comeu a comida dele'], a:'No lago não tinha a comida de que ele gostava', exp:'O corvo saiu de perto das casas, onde achava comida.'},
+   {tipo:'mc', q:'Qual é o antônimo de “branco”, que aparece na história?', op:['preto','branquinho','claro'], a:'preto', exp:'Branco × preto: são antônimos. O cisne era branco e o corvo, preto.'}
+  ]}
+];
+
+/* ============ ESTADO ============ */
+const S = {nome:'', modo:'prova', qs:[], i:0, resp:[], sel:null, confirmado:false, prova:0, dica:false, notas:{}};
+// Por prova: 16 questões de conteúdo + 4 de interpretação = 20. As 3 provas não repetem perguntas.
+const QUANT = {sin:3, pre:2, sob:2, sz:2, xch:3, num:2, gen:2};
+const NOMES_PROVA = ['Prova 1','Prova 2','Prova 3'];
+try{ S.notas = JSON.parse(localStorage.getItem('missaoPortNotas')||'{}'); }catch(e){ S.notas = {}; }
+function salvarNota(p, c, t){ S.notas[p] = {c,t}; try{ localStorage.setItem('missaoPortNotas', JSON.stringify(S.notas)); }catch(e){} }
+const app = document.getElementById('app');
+
+const embaralha = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s).trim().toLowerCase().replace(/\s+/g,' ').replace(/[.!]+$/,'');
+
+function preparar(q, top, hist){
+  const n = Object.assign({}, q, {top});
+  if(hist) n.hist = hist;
+  if(q.tipo==='vf') n.ops = ['Verdadeiro','Falso'];
+  else if(q.op) n.ops = embaralha(q.op);
+  return n;
+}
+
+function montarProva(p){
+  let lista = [];
+  for(const t in QUANT){
+    BANCO[t].slice(p*QUANT[t], (p+1)*QUANT[t]).forEach(q => lista.push(preparar(q, t)));
+  }
+  lista = embaralha(lista);
+  const h = HISTORIAS[p];
+  h.qs.forEach(q => lista.push(preparar(q, 'int', h)));
+  return lista;
+}
+
+function acertou(q, r){
+  if(r==null) return false;
+  if(q.tipo==='type') return q.ans.map(norm).includes(norm(r));
+  return r === q.a;
+}
+
+/* ============ VOZ ============ */
+function falar(txt){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(txt.replace(/___/g,' lacuna ').replace(/→/g,''));
+  u.lang = 'pt-BR'; u.rate = .9;
+  const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith('pt'));
+  if(v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+
+/* ============ TELAS ============ */
+function telaInicio(){
+  app.innerHTML = `
+  <section class="card">
+    <h2>Oi! Eu sou a Rãzinha Lili 🐸</h2>
+    <p>Vamos fazer uma missão de Português? São <b>20 perguntas</b> sobre tudo o que você estudou.
+       Leia com calma, escolha a resposta e clique em <b>Confirmar</b>. No final eu te mostro o que você acertou e o que vale a pena treinar mais!</p>
+    <label for="nome"><b>Qual é o seu nome?</b></label>
+    <input type="text" id="nome" placeholder="Escreva seu nome aqui" maxlength="30" value="${esc(S.nome)}">
+    <p style="margin:16px 0 4px"><b>Como você quer jogar?</b></p>
+    <div class="modos">
+      <div class="modo ${S.modo==='prova'?'on':''}" data-m="prova"><b>📝 Modo Prova</b><span>Você só descobre os acertos no final.</span></div>
+      <div class="modo ${S.modo==='treino'?'on':''}" data-m="treino"><b>🏋️ Modo Treino</b><span>Você vê se acertou logo depois de cada pergunta.</span></div>
+    </div>
+    <p style="margin:16px 0 4px"><b>Escolha a prova:</b></p>
+    <div class="modos">
+      ${NOMES_PROVA.map((n,k)=>{
+        const nt = S.notas[k];
+        return `<div class="modo ${S.prova===k?'on':''}" data-p="${k}"><b>${['🐸','🐝','🦢'][k]} ${n}</b>
+          <span>${nt ? '✅ Feita: '+nt.c+'/'+nt.t+' acertos' : 'Ainda não feita'}</span></div>`;
+      }).join('')}
+    </div>
+    <div class="acoes"><span></span><button class="btn verde" id="comecar">Começar a ${NOMES_PROVA[S.prova]}! 🚀</button></div>
+  </section>
+  <section class="card">
+    <h2>O que cai na prova</h2>
+    <p style="margin:0">${Object.values(TOPICOS).map(t=>`<span class="tag" style="margin:3px">${t.emoji} ${t.nome}</span>`).join(' ')}</p>
+  </section>`;
+  app.querySelectorAll('.modo').forEach(el => el.onclick = () => {
+    if(el.dataset.m) S.modo = el.dataset.m;
+    if(el.dataset.p) S.prova = +el.dataset.p;
+    S.nome = document.getElementById('nome').value; telaInicio();
+  });
+  document.getElementById('comecar').onclick = () => {
+    S.nome = document.getElementById('nome').value.trim();
+    if(!S.nome){ document.getElementById('nome').focus(); toast('Escreva seu nome primeiro! ✏️'); return; }
+    S.treinoErros = false;
+    iniciar(montarProva(S.prova));
+  };
+}
+
+function iniciar(lista){
+  S.qs = lista; S.i = 0; S.resp = new Array(lista.length).fill(null); S.sel = null; S.confirmado = false; S.dica = false;
+  telaPergunta();
+}
+
+function textoPergunta(q, valor){
+  const e = esc(q.q);
+  if(q.tipo==='fill') return e.replace('___', `<span class="lacuna">${valor ? esc(valor) : '&nbsp;?&nbsp;'}</span>`);
+  return e;
+}
+
+function telaPergunta(){
+  const q = S.qs[S.i], tot = S.qs.length, t = TOPICOS[q.top];
+  const letras = 'ABCD';
+  let corpo = '';
+  if(q.hist){
+    corpo += `<div class="historia">
+      <div class="topo"><h3>${q.hist.emoji} ${esc(q.hist.titulo)}</h3><button class="falar" id="ouvirHist" title="Ouvir a história">🔊 Ouvir</button></div>
+      ${q.hist.texto.map(p=>`<p>${esc(p)}</p>`).join('')}
+      <p class="moral">${esc(q.hist.moral)}</p></div>`;
+  }
+  corpo += `<div class="pergunta">${textoPergunta(q, S.sel)}</div>`;
+  if(q.tipo==='type'){
+    corpo += `<input type="text" id="campo" autocomplete="off" placeholder="Escreva aqui" value="${S.sel?esc(S.sel):''}" ${S.confirmado?'disabled':''}>`;
+  } else {
+    corpo += `<div class="opcoes">${q.ops.map((o,k)=>{
+      let cls = 'op';
+      if(S.confirmado && S.modo==='treino'){ if(o===q.a) cls+=' certa'; else if(o===S.sel) cls+=' errada'; }
+      else if(o===S.sel) cls+=' sel';
+      return `<button class="${cls}" data-o="${esc(o)}" ${S.confirmado?'disabled':''}><span class="letra">${letras[k]}</span>${esc(o)}</button>`;
+    }).join('')}</div>`;
+  }
+  let fb = '';
+  if(S.confirmado && S.modo==='treino'){
+    const ok = acertou(q, S.sel);
+    const certa = q.tipo==='type' ? q.ans[0] : q.a;
+    fb = ok ? `<div class="feedback ok">🎉 Muito bem! Você acertou! <br>💡 ${esc(q.exp)}</div>`
+            : `<div class="feedback no">🤔 Quase! A resposta certa é <b>${esc(certa)}</b>.<br>💡 ${esc(q.exp)}</div>`;
+  }
+  const botao = (S.confirmado && S.modo==='treino')
+      ? `<button class="btn azul" id="proxima">${S.i===tot-1?'Ver resultado 🏆':'Próxima ➜'}</button>`
+      : `<button class="btn verde" id="confirmar" ${S.sel?'':'disabled'}>✅ Confirmar resposta</button>`;
+
+  app.innerHTML = `
+  <section class="card">
+    <div class="topo">
+      <span class="num">Pergunta ${S.i+1} de ${tot}</span>
+      <span class="tag">${t.emoji} ${t.nome}</span>
+    </div>
+    <div class="barra"><div style="width:${(S.i/tot)*100}%"></div></div>
+    <div class="topo" style="justify-content:flex-end;margin:0;gap:8px">
+      ${S.confirmado?'':'<button class="falar" id="btnDica" title="Pedir uma dica">💡 Dica</button>'}
+      <button class="falar" id="ouvir" title="Ouvir a pergunta">🔊 Ouvir pergunta</button></div>
+    ${S.dica && !S.confirmado ? `<div class="feedback ok" style="margin:8px 0 14px;background:#FFFBEF;border-color:var(--amarelo)">💡 ${esc(t.dica)}</div>` : ''}
+    ${corpo}
+    ${fb}
+    <div class="acoes">
+      <span style="color:var(--muted);font-size:16px">${S.nome ? '🐸 Força, '+esc(S.nome)+'!' : ''}</span>
+      ${botao}
+    </div>
+  </section>`;
+
+  document.getElementById('ouvir').onclick = () => falar(q.q + (q.ops ? '. As opções são: ' + q.ops.join(', ') : ''));
+  const oh = document.getElementById('ouvirHist');
+  if(oh) oh.onclick = () => falar(q.hist.titulo + '. ' + q.hist.texto.join(' ') + ' ' + q.hist.moral);
+
+  if(!S.confirmado){
+    document.getElementById('btnDica').onclick = () => { S.dica = !S.dica; telaPergunta(); };
+    app.querySelectorAll('.op').forEach(b => b.onclick = () => { S.sel = b.dataset.o; telaPergunta(); });
+    const campo = document.getElementById('campo');
+    if(campo){
+      campo.focus(); campo.setSelectionRange(campo.value.length, campo.value.length);
+      campo.oninput = () => { S.sel = campo.value.trim() || null; document.getElementById('confirmar').disabled = !S.sel; };
+      campo.onkeydown = e => { if(e.key==='Enter' && S.sel) pedirConfirmacao(); };
+    }
+    document.getElementById('confirmar').onclick = pedirConfirmacao;
+  } else {
+    document.getElementById('proxima').onclick = avancar;
+  }
+}
+
+function pedirConfirmacao(){
+  const box = document.getElementById('modalBox');
+  box.innerHTML = `
+    <div class="grande">🤔</div>
+    <h2>Tem certeza?</h2>
+    <div>Você escolheu:</div>
+    <div class="esc">${esc(S.sel)}</div>
+    <div class="acoes">
+      <button class="btn branco" id="mudar">✏️ Quero mudar</button>
+      <button class="btn verde" id="sim">👍 Sim, confirmar!</button>
+    </div>`;
+  document.getElementById('modal').classList.add('on');
+  document.getElementById('mudar').onclick = fecharModal;
+  document.getElementById('sim').onclick = () => {
+    fecharModal();
+    S.resp[S.i] = S.sel;
+    if(S.modo==='treino'){ S.confirmado = true; telaPergunta(); }
+    else { toast('Resposta guardada! ⭐'); avancar(); }
+  };
+}
+function fecharModal(){ document.getElementById('modal').classList.remove('on'); }
+
+function avancar(){
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  S.i++; S.sel = null; S.confirmado = false; S.dica = false;
+  if(S.i >= S.qs.length) telaResultado(); else { telaPergunta(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+function telaResultado(){
+  const tot = S.qs.length;
+  const certos = S.qs.filter((q,k)=>acertou(q,S.resp[k])).length;
+  const pct = certos/tot;
+  if(!S.treinoErros) salvarNota(S.prova, certos, tot);
+  const proxima = S.prova < NOMES_PROVA.length-1 ? S.prova+1 : null;
+  const estrelas = pct===1?5: pct>=.85?4: pct>=.7?3: pct>=.5?2:1;
+  const msg = pct===1 ? 'UAU! Você acertou TUDO! Você é um craque do Português! 🏆'
+            : pct>=.85 ? 'Excelente! Faltou bem pouquinho para gabaritar! 🌟'
+            : pct>=.7 ? 'Muito bom! Revise os pontos abaixo e você vai arrasar! 💪'
+            : pct>=.5 ? 'Bom esforço! Vamos treinar mais um pouco os temas abaixo. 📚'
+            : 'Não desanime! Toda missão fica mais fácil com treino. Vamos revisar juntos! 🐸';
+
+  // por tema
+  const porTema = {};
+  S.qs.forEach((q,k)=>{ const p = porTema[q.top] ||= {c:0,t:0}; p.t++; if(acertou(q,S.resp[k])) p.c++; });
+  const linhas = Object.keys(porTema).map(t=>{
+    const p = porTema[t], r = p.c/p.t;
+    const cor = r===1?'var(--verde)': r>=.5?'var(--amarelo)':'var(--vermelho)';
+    const st = r===1?'✅ Mandou bem': r>=.5?'⚠️ Revisar':'❗ Reforçar';
+    return `<tr><td>${TOPICOS[t].emoji} ${TOPICOS[t].nome}</td><td><b>${p.c}/${p.t}</b></td>
+      <td><div class="mini"><div style="width:${r*100}%;background:${cor}"></div></div></td><td>${st}</td></tr>`;
+  }).join('');
+
+  const erros = S.qs.map((q,k)=>({q,k,r:S.resp[k]})).filter(o=>!acertou(o.q,o.r));
+  const listaErros = erros.map(({q,k,r})=>{
+    const certa = q.tipo==='type' ? q.ans[0] : q.a;
+    return `<div class="erro">
+      <div><span class="tag">${TOPICOS[q.top].emoji} ${TOPICOS[q.top].nome}</span> <span class="num">Pergunta ${k+1}</span></div>
+      ${q.hist?`<div class="r">📖 História: <b>${esc(q.hist.titulo)}</b></div>`:''}
+      <div class="q" style="margin-top:6px">${textoPergunta(q, null)}</div>
+      <div class="r">❌ Sua resposta: <b>${esc(r ?? '—')}</b></div>
+      <div class="r">✅ Resposta certa: <b>${esc(certa)}</b></div>
+      <div class="r">💡 ${esc(q.exp)}</div>
+    </div>`;
+  }).join('');
+
+  const temasErro = Object.keys(porTema).filter(t=>porTema[t].c<porTema[t].t);
+  const reforco = temasErro.map(t=>`<div class="reforco">
+      <b>${TOPICOS[t].emoji} ${TOPICOS[t].nome}</b> — acertou ${porTema[t].c} de ${porTema[t].t}<br>
+      ${esc(TOPICOS[t].dica)}<br><span class="pg">📚 Onde estudar: ${esc(TOPICOS[t].pag)} e registros/fichas do caderno</span>
+    </div>`).join('');
+
+  const data = new Date().toLocaleDateString('pt-BR');
+  app.innerHTML = `
+  <section class="card placar">
+    <div style="font-size:60px">${pct>=.7?'🏆':'🐸'}</div>
+    <h2>${S.treinoErros?'Treino completo':NOMES_PROVA[S.prova]+' completa'}${S.nome?', '+esc(S.nome):''}!</h2>
+    <div class="estrelas">${'⭐'.repeat(estrelas)}${'☆'.repeat(5-estrelas)}</div>
+    <div class="nota">${certos}/${tot}</div>
+    <p>${msg}</p>
+    <p style="color:var(--muted);font-size:16px;margin:0">${data} • ${S.modo==='prova'?'Modo Prova':'Modo Treino'}</p>
+  </section>
+
+  <section class="card">
+    <h2>📊 Como você foi em cada tema</h2>
+    <table><thead><tr><th>Tema</th><th>Acertos</th><th></th><th>Situação</th></tr></thead><tbody>${linhas}</tbody></table>
+  </section>
+
+  ${erros.length ? `
+  <section class="card">
+    <h2>🎯 O que precisa reforçar</h2>
+    ${reforco}
+  </section>
+  <section class="card">
+    <h2>🔍 Onde estão os erros (${erros.length})</h2>
+    ${listaErros}
+  </section>` : `
+  <section class="card"><h2>🎯 O que precisa reforçar</h2><p>Nada! Você acertou todas. Continue lendo bastante e revisando o caderno! 📚</p></section>`}
+
+  <section class="card no-print">
+    <div class="acoes" style="justify-content:center">
+      ${proxima!==null?`<button class="btn verde" id="proximaProva">➜ Fazer a ${NOMES_PROVA[proxima]} (20 perguntas novas)</button>`:''}
+      ${erros.length?'<button class="btn laranja" id="treinarErros">🏋️ Treinar só os erros</button>':''}
+      <button class="btn azul" id="nova">📋 Escolher prova</button>
+      <button class="btn branco" id="imprimir">🖨️ Imprimir resultado</button>
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:16px;margin-bottom:0">${proxima!==null?'A próxima prova tem perguntas e uma história diferentes!':'Você chegou à última prova! 🎉'}</p>
+  </section>`;
+
+  if(pct>=.8) confete();
+  const te = document.getElementById('treinarErros');
+  const pp = document.getElementById('proximaProva');
+  if(pp) pp.onclick = () => { S.prova = proxima; S.treinoErros = false; iniciar(montarProva(S.prova)); };
+  if(te) te.onclick = () => {
+    S.modo = 'treino'; S.treinoErros = true;
+    iniciar(embaralha(erros.map(o => preparar(o.q, o.q.top, o.q.hist))));
+  };
+  document.getElementById('nova').onclick = () => telaInicio();
+  document.getElementById('imprimir').onclick = () => window.print();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============ EFEITOS ============ */
+function toast(txt){
+  const d = document.createElement('div'); d.className='toast'; d.textContent=txt;
+  document.body.appendChild(d); setTimeout(()=>d.remove(), 1300);
+}
+function confete(){
+  const em = ['🎉','⭐','🐸','🌟','🎈','💜'];
+  for(let k=0;k<40;k++){
+    const d = document.createElement('div'); d.className='confete';
+    d.textContent = em[k%em.length];
+    d.style.left = Math.random()*100+'vw';
+    d.style.animationDuration = (2.5+Math.random()*2.5)+'s';
+    d.style.animationDelay = (Math.random()*1.2)+'s';
+    document.body.appendChild(d); setTimeout(()=>d.remove(), 6500);
+  }
+}
+
+if('speechSynthesis' in window) speechSynthesis.getVoices();
+telaInicio();
+</script>
+</body>
+</html>
+
