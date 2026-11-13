@@ -90,7 +90,42 @@
   @keyframes cai{to{transform:translateY(110vh) rotate(540deg)}}
   footer{text-align:center;color:var(--muted);font-size:15px;margin:20px 0}
   @media (max-width:520px){body{font-size:18px}.pergunta{font-size:22px}.op{font-size:20px}header h1{font-size:24px}}
-  @media print{body{background:#fff}.no-print,.btn,.falar{display:none!important}.card{box-shadow:none;border:1px solid #ccc}}
+  /* ---------- versão para imprimir ---------- */
+  .imp-opcoes{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+  .chk{display:flex;align-items:center;gap:8px;font-size:18px;margin-top:6px}
+  .chk input{width:22px;height:22px}
+  .folha{background:#fff;color:#111;border-radius:16px;padding:24px;box-shadow:var(--sombra);font-size:18px}
+  .folha h1{font-size:26px;margin:0;color:#111}
+  .folha .subt{color:#444;font-size:16px;margin:2px 0 0}
+  .cab{display:grid;grid-template-columns:2fr 1fr;gap:10px 18px;border:2px solid #333;border-radius:12px;padding:10px 14px;margin:12px 0}
+  .cab div{display:flex;gap:6px;align-items:flex-end}
+  .cab div i{flex:1;border-bottom:1.5px solid #333;height:22px}
+  .instr{border:2px solid #333;border-radius:12px;padding:8px 14px;margin-bottom:14px;font-size:16px}
+  .instr p{margin:3px 0}
+  .secao{font-weight:800;font-size:20px;margin:18px 0 8px;break-after:avoid}
+  .qi{break-inside:avoid;margin:0 0 12px;padding:10px 12px;border:1.5px solid #bbb;border-radius:12px}
+  .qi .n{font-weight:800;margin-right:4px}
+  .qi .tm{font-size:13px;color:#666;font-weight:600;margin-left:6px}
+  .qi .ops{display:flex;flex-wrap:wrap;gap:6px 26px;margin-top:8px}
+  .qi .ops span{white-space:nowrap}
+  .qi .ops b{display:inline-block;width:20px;height:20px;border:2px solid #333;border-radius:50%;margin-right:6px;vertical-align:-4px;text-align:center;font-size:12px;line-height:16px}
+  .linha{border-bottom:1.5px solid #333;height:34px;margin-top:4px}
+  .blank{display:inline-block;min-width:80px;border-bottom:2px solid #333;margin:0 4px}
+  .hist-imp{border:2px dashed #777;border-radius:12px;padding:10px 16px;margin:0 0 14px;break-inside:avoid}
+  .hist-imp h3{margin:0 0 4px;font-size:21px}
+  .hist-imp p{margin:5px 0;line-height:1.45}
+  .gab{break-before:page;margin-top:30px;padding-top:20px;border-top:3px dashed #999}
+  .gab table{font-size:16px}
+  .gab td,.gab th{border-bottom:1px solid #ccc;padding:5px 6px}
+  .barra-imp{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+  @media print{body{background:#fff}.no-print,.btn,.falar{display:none!important}.card{box-shadow:none;border:1px solid #ccc}
+    @page{size:A4;margin:12mm}
+    body.imprimindo{font-size:15px;background-image:none}
+    body.imprimindo .wrap>header, body.imprimindo .wrap>footer{display:none}
+    body.imprimindo .wrap{max-width:none;padding:0}
+    .folha{box-shadow:none;padding:0;border-radius:0;font-size:15.5px}
+    .gab{border-top:none;margin-top:0;padding-top:0}
+    .qi{padding:7px 10px;margin-bottom:8px}}
 </style>
 </head>
 <body>
@@ -258,8 +293,8 @@ const S = {nome:'', modo:'prova', qs:[], i:0, resp:[], sel:null, confirmado:fals
 // Por prova: 16 questões de conteúdo + 4 de interpretação = 20. As 3 provas não repetem perguntas.
 const QUANT = {sin:3, pre:2, sob:2, sz:2, xch:3, num:2, gen:2};
 const NOMES_PROVA = ['Prova 1','Prova 2','Prova 3'];
-try{ S.notas = JSON.parse(localStorage.getItem('missaoPortNotas')||'{}'); }catch(e){ S.notas = {}; }
-function salvarNota(p, c, t){ S.notas[p] = {c,t}; try{ localStorage.setItem('missaoPortNotas', JSON.stringify(S.notas)); }catch(e){} }
+try{ S.notas = JSON.parse(localStorage.getItem('altaneiro-port-3tri-notas')||'{}'); }catch(e){ S.notas = {}; }
+function salvarNota(p, c, t){ S.notas[p] = {c,t}; try{ localStorage.setItem('altaneiro-port-3tri-notas', JSON.stringify(S.notas)); }catch(e){} }
 const app = document.getElementById('app');
 
 const embaralha = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
@@ -327,6 +362,14 @@ function telaInicio(){
     <div class="acoes"><span></span><button class="btn verde" id="comecar">Começar a ${NOMES_PROVA[S.prova]}! 🚀</button></div>
   </section>
   <section class="card">
+    <h2>🖨️ Versão para imprimir</h2>
+    <p style="margin:0">Prefere fazer no papel, longe da tela? Escolha a prova e imprima a folha com as mesmas 20 perguntas.</p>
+    <div class="imp-opcoes">
+      ${NOMES_PROVA.map((n,k)=>`<button class="btn branco imp" data-p="${k}">🖨️ ${n}</button>`).join('')}
+    </div>
+    <label class="chk"><input type="checkbox" id="comGab" checked> Incluir gabarito para o adulto (sai em folha separada)</label>
+  </section>
+  <section class="card">
     <h2>O que cai na prova</h2>
     <p style="margin:0">${Object.values(TOPICOS).map(t=>`<span class="tag" style="margin:3px">${t.emoji} ${t.nome}</span>`).join(' ')}</p>
   </section>`;
@@ -334,6 +377,10 @@ function telaInicio(){
     if(el.dataset.m) S.modo = el.dataset.m;
     if(el.dataset.p) S.prova = +el.dataset.p;
     S.nome = document.getElementById('nome').value; telaInicio();
+  });
+  app.querySelectorAll('.imp').forEach(b => b.onclick = () => {
+    S.nome = document.getElementById('nome').value.trim();
+    telaImpressao(+b.dataset.p, document.getElementById('comGab').checked);
   });
   document.getElementById('comecar').onclick = () => {
     S.nome = document.getElementById('nome').value.trim();
@@ -545,6 +592,83 @@ function telaResultado(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+/* ============ VERSÃO PARA IMPRIMIR ============ */
+function telaImpressao(p, comGab){
+  document.body.classList.add('imprimindo');
+  const lista = montarProva(p);
+  const conteudo = lista.filter(q => !q.hist);
+  const hist = lista.find(q => q.hist)?.hist;
+  const leitura = lista.filter(q => q.hist);
+  const L = 'ABCD';
+  const respostaCerta = q => {
+    if(q.tipo==='type') return q.ans[0];
+    const k = q.ops.indexOf(q.a);
+    return `(${L[k]}) ${q.a}`;
+  };
+
+  const blocoQ = (q, n) => {
+    const t = TOPICOS[q.top];
+    let enun = esc(q.q);
+    if(q.tipo==='fill') enun = enun.replace('___', '<span class="blank"></span>');
+    let resp = '';
+    if(q.tipo==='type') resp = '<div class="linha"></div>';
+    else resp = `<div class="ops">${q.ops.map((o,k)=>`<span><b>${L[k]}</b>${esc(o)}</span>`).join('')}</div>`;
+    return `<div class="qi"><span class="n">${n}.</span>${enun}${q.top!=='int'?`<span class="tm">${t.emoji} ${t.nome}</span>`:''}${resp}</div>`;
+  };
+
+  let n = 0;
+  const qsConteudo = conteudo.map(q => blocoQ(q, ++n)).join('');
+  const qsLeitura = leitura.map(q => blocoQ(q, ++n)).join('');
+
+  // gabarito
+  const todas = [...conteudo, ...leitura];
+  const porTema = {};
+  todas.forEach((q,k) => (porTema[q.top] ||= []).push(k+1));
+  const gab = !comGab ? '' : `
+  <div class="gab">
+    <h1>Gabarito – ${NOMES_PROVA[p]} (para o adulto)</h1>
+    <p class="subt">Marque com um X as questões que a criança errou. Depois veja na tabela de baixo quais temas precisam de reforço.</p>
+    <table><thead><tr><th>Nº</th><th>Resposta certa</th><th>Tema</th><th>Errou?</th></tr></thead><tbody>
+      ${todas.map((q,k)=>`<tr><td><b>${k+1}</b></td><td>${esc(respostaCerta(q))}</td><td>${TOPICOS[q.top].nome}</td><td>☐</td></tr>`).join('')}
+    </tbody></table>
+    <h2 style="margin:18px 0 6px;font-size:21px">O que reforçar</h2>
+    <table><thead><tr><th>Tema</th><th>Questões</th><th>Acertos</th><th>Onde estudar</th></tr></thead><tbody>
+      ${Object.keys(porTema).map(t=>`<tr><td>${TOPICOS[t].nome}</td><td>${porTema[t].join(', ')}</td><td>___ de ${porTema[t].length}</td><td>${esc(TOPICOS[t].pag)}</td></tr>`).join('')}
+    </tbody></table>
+    <p style="font-size:15px;margin-top:10px"><b>Dicas para explicar:</b></p>
+    ${Object.keys(porTema).map(t=>`<p style="font-size:14px;margin:3px 0"><b>${TOPICOS[t].nome}:</b> ${esc(TOPICOS[t].dica)}</p>`).join('')}
+  </div>`;
+
+  app.innerHTML = `
+  <div class="barra-imp no-print">
+    <button class="btn branco" id="voltarImp">← Voltar</button>
+    <button class="btn verde" id="imprimirFolha">🖨️ Imprimir agora</button>
+  </div>
+  <div class="folha">
+    <h1>🐸 Missão Português – ${NOMES_PROVA[p]}</h1>
+    <p class="subt">2º ano • Revisão do 3º trimestre</p>
+    <div class="cab">
+      <div>Nome: <i>${S.nome?esc(S.nome):''}</i></div>
+      <div>Data: <i></i></div>
+    </div>
+    <div class="instr">
+      <p>✏️ Leia cada pergunta com calma.</p>
+      <p>🔵 Pinte a bolinha da resposta certa. Quando tiver um espaço em branco, escreva a palavra que falta.</p>
+      <p>🔍 Antes de entregar, confira tudo de novo!</p>
+    </div>
+    <div class="secao">Parte 1 – Palavras e letras</div>
+    ${qsConteudo}
+    <div class="secao" style="break-before:page">Parte 2 – Leitura e interpretação</div>
+    ${hist ? `<div class="hist-imp"><h3>${hist.emoji} ${esc(hist.titulo)}</h3>${hist.texto.map(t=>`<p>${esc(t)}</p>`).join('')}<p><b>${esc(hist.moral)}</b></p></div>` : ''}
+    ${qsLeitura}
+    <p style="text-align:center;margin-top:16px;font-weight:700">Parabéns, você terminou! 🌟</p>
+    ${gab}
+  </div>`;
+  document.getElementById('voltarImp').onclick = () => { document.body.classList.remove('imprimindo'); telaInicio(); };
+  document.getElementById('imprimirFolha').onclick = () => window.print();
+  window.scrollTo({top:0});
+}
+
 /* ============ EFEITOS ============ */
 function toast(txt){
   const d = document.createElement('div'); d.className='toast'; d.textContent=txt;
@@ -567,4 +691,3 @@ telaInicio();
 </script>
 </body>
 </html>
-
