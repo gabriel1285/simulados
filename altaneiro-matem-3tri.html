@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Missão Português – 2º ano</title>
+<title>Missão Matemática – 2º ano</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -90,6 +90,37 @@
   @keyframes cai{to{transform:translateY(110vh) rotate(540deg)}}
   footer{text-align:center;color:var(--muted);font-size:15px;margin:20px 0}
   @media (max-width:520px){body{font-size:18px}.pergunta{font-size:22px}.op{font-size:20px}header h1{font-size:24px}}
+  /* ---------- desenhos de matemática ---------- */
+  .vis{display:flex;justify-content:center;margin:4px 0 16px}
+  .digital{font-family:'Courier New',monospace;font-weight:800;font-size:44px;background:#2B2A4C;color:#7CF29A;border-radius:14px;padding:6px 22px;letter-spacing:4px}
+  .termos{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+  .termo{margin:0;text-align:center}
+  .termo figcaption{font-weight:700;font-size:17px}
+  .cal{border-collapse:collapse;background:#fff;border:3px solid var(--laranja);border-radius:12px;font-size:18px;width:auto}
+  .cal caption{font-weight:800;color:#fff;background:var(--laranja);padding:4px;border-radius:10px 10px 0 0}
+  .cal th,.cal td{width:40px;height:34px;text-align:center;border:1px solid #F1E6C8;padding:0}
+  .cal th{color:var(--laranja)}
+  .cal td.marca{background:var(--amarelo);font-weight:800;border-radius:50%}
+  .dinheiro{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+  .nota{width:130px;height:64px;border-radius:10px;color:#fff;position:relative;border:3px solid rgba(0,0,0,.15);box-shadow:inset 0 0 0 4px rgba(255,255,255,.35)}
+  .nota span{position:absolute;left:8px;top:6px;font-weight:800;font-size:16px}
+  .nota b{position:absolute;right:10px;bottom:2px;font-size:32px;opacity:.9}
+  .moeda{width:64px;height:64px;border-radius:50%;background:#E0B84F;border:4px solid #B8902C;display:grid;place-items:center;font-weight:800;font-size:20px;color:#5A4200}
+  .conta{font-family:'Courier New',monospace;font-weight:800;font-size:38px;text-align:right;line-height:1.15;padding:6px 18px;background:#fff;border:3px solid #E4DCC2;border-radius:16px}
+  .conta span{float:left;margin-right:16px;color:var(--roxo)}
+  .conta .traco{border-top:4px solid #2B2A4C;height:44px;margin-top:4px}
+  .tab{width:auto;border-collapse:collapse;background:#fff;font-size:18px}
+  .tab th{background:var(--roxo-claro);color:var(--roxo)}
+  .tab th,.tab td{border:2px solid #E4DCC2;padding:6px 12px}
+  .resp-num{display:flex;align-items:center;gap:12px;justify-content:center}
+  .resp-num input{width:180px;text-align:center;font-size:32px;font-weight:800}
+  .resp-num span{font-size:22px;font-weight:700}
+  .resp-imp{margin-top:8px;display:flex;gap:6px;align-items:flex-end}
+  .resp-imp i{display:inline-block;width:120px;border-bottom:1.5px solid #333;height:22px}
+  @media print{.vis{margin:4px 0 6px}.vis svg{width:110px;height:auto}.termo svg{width:60px;height:auto}
+    .conta{font-size:26px;border:none}.conta .traco{height:30px}.digital{font-size:28px;background:#fff;color:#111;border:2px solid #111}
+    .nota{width:100px;height:50px}.nota b{font-size:24px}.cal{font-size:13px}.cal th,.cal td{width:26px;height:20px}
+    .cal caption{color:#111;background:none}.tab{font-size:14px}}
   /* ---------- versão para imprimir ---------- */
   .imp-opcoes{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
   .chk{display:flex;align-items:center;gap:8px;font-size:18px;margin-top:6px}
@@ -132,8 +163,8 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="logo">🐸</div>
-    <div><h1>Missão Português</h1><small>2º ano • Prova da Rãzinha Lili</small></div>
+    <div class="logo">🦉</div>
+    <div><h1>Missão Matemática</h1><small>2º ano • Prova da Corujinha Nina</small></div>
   </header>
   <main id="app"></main>
   <footer class="no-print">Feito com carinho para estudar em casa 💜</footer>
@@ -143,164 +174,212 @@
 
 <script>
 /* =========================================================
+   DESENHOS (relógio, termômetro, calendário, dinheiro, contas)
+   ========================================================= */
+function relogio(h, m){
+  const cx=70, cy=70, r=62;
+  let nums='';
+  for(let n=1;n<=12;n++){
+    const a=(n*30-90)*Math.PI/180;
+    nums+=`<text x="${cx+Math.cos(a)*48}" y="${cy+Math.sin(a)*48+6}" text-anchor="middle" font-size="16" font-weight="700" fill="#2B2A4C">${n}</text>`;
+  }
+  let tr='';
+  for(let k=0;k<60;k++){
+    const a=(k*6-90)*Math.PI/180, r1=k%5?57:53;
+    tr+=`<line x1="${cx+Math.cos(a)*r1}" y1="${cy+Math.sin(a)*r1}" x2="${cx+Math.cos(a)*60}" y2="${cy+Math.sin(a)*60}" stroke="#2B2A4C" stroke-width="${k%5?1:2}"/>`;
+  }
+  const ah=(((h%12)+m/60)*30-90)*Math.PI/180, am=(m*6-90)*Math.PI/180;
+  return `<svg class="vis-svg" width="150" height="150" viewBox="0 0 140 140" role="img" aria-label="relógio">
+    <circle cx="${cx}" cy="${cy}" r="${r+4}" fill="#FF8C42"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff"/>${tr}${nums}
+    <line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(ah)*30}" y2="${cy+Math.sin(ah)*30}" stroke="#2B2A4C" stroke-width="6" stroke-linecap="round"/>
+    <line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(am)*46}" y2="${cy+Math.sin(am)*46}" stroke="#E8505B" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="4" fill="#2B2A4C"/></svg>`;
+}
+function digital(txt){ return `<div class="digital">${txt}</div>`; }
+
+function termometros(lista){
+  const um = ([rot, t]) => {
+    const topo=14, base=150, max=40, y=base-(t/max)*(base-topo);
+    let tk='';
+    for(let v=0; v<=max; v+=5){
+      const yy=base-(v/max)*(base-topo);
+      tk+=`<line x1="38" y1="${yy}" x2="${v%10?44:48}" y2="${yy}" stroke="#555" stroke-width="1"/>`;
+      if(v%10===0) tk+=`<text x="52" y="${yy+4}" font-size="10" fill="#444">${v}</text>`;
+    }
+    return `<figure class="termo"><svg width="80" height="190" viewBox="0 0 80 190" role="img" aria-label="termômetro marcando ${t} graus">
+      <rect x="22" y="8" width="16" height="150" rx="8" fill="#fff" stroke="#555" stroke-width="2"/>
+      <rect x="26" y="${y}" width="8" height="${base-y+6}" fill="#E8505B"/>
+      <circle cx="30" cy="166" r="14" fill="#E8505B" stroke="#555" stroke-width="2"/>${tk}
+      <text x="70" y="12" font-size="10" text-anchor="end" fill="#444">°C</text></svg>
+      ${rot?`<figcaption>${rot}</figcaption>`:''}</figure>`;
+  };
+  return `<div class="termos">${lista.map(um).join('')}</div>`;
+}
+
+const MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const DIAS=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+function calendario(ano, mes, marca){
+  const ini=new Date(ano,mes,1).getDay(), tot=new Date(ano,mes+1,0).getDate();
+  let cel=''; for(let k=0;k<ini;k++) cel+='<td></td>';
+  for(let d=1; d<=tot; d++){ cel+=`<td class="${d===marca?'marca':''}">${d}</td>`; if((ini+d)%7===0 && d<tot) cel+='</tr><tr>'; }
+  return `<table class="cal"><caption>${MESES[mes].toUpperCase()} ${ano}</caption>
+    <thead><tr>${['D','S','T','Q','Q','S','S'].map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody><tr>${cel}</tr></tbody></table>`;
+}
+const diaSemana=(a,m,d)=>DIAS[new Date(a,m,d).getDay()];
+const contaDia=(a,m,dia)=>{ let c=0; const t=new Date(a,m+1,0).getDate(); for(let d=1;d<=t;d++) if(new Date(a,m,d).getDay()===dia) c++; return c; };
+
+const COR_NOTA={2:'#5B8DEF',5:'#B07CD8',10:'#E8707A',20:'#F2B33D',50:'#D98C4A',100:'#4FB0C6',200:'#9AA0A6'};
+function dinheiro(lista){
+  return `<div class="dinheiro">${lista.map(v=>{
+    if(typeof v==='number') return `<div class="nota" style="background:${COR_NOTA[v]}"><span>R$ ${v},00</span><b>${v}</b></div>`;
+    return `<div class="moeda">${v}</div>`;
+  }).join('')}</div>`;
+}
+function conta(a, op, b){
+  return `<div class="conta"><div>${a}</div><div><span>${op}</span>${b}</div><div class="traco"></div></div>`;
+}
+function tabela(cab, linhas){
+  return `<table class="tab"><thead><tr>${cab.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${linhas.map(l=>`<tr>${l.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+const expConta=(a,op,b,r)=> op==='+'
+  ? `${a} + ${b} = ${r}. Comece pelas unidades. Se a soma passar de 9, fica a unidade e “vai 1” para a casa da esquerda.`
+  : `${a} − ${b} = ${r}. Comece pelas unidades. Se o número de cima for menor, “empreste” 1 da casa da esquerda. Para conferir: ${r} + ${b} = ${a}.`;
+
+/* =========================================================
    TEMAS (com dica e páginas para revisar)
    ========================================================= */
 const TOPICOS = {
-  sin:{nome:'Sinônimos e antônimos', emoji:'🔁', pag:'Livro p. 72 a 75 e p. 98',
-       dica:'Sinônimos têm o MESMO sentido (bonito = lindo). Antônimos têm sentido CONTRÁRIO (alto × baixo).'},
-  pre:{nome:'Prefixos IN, IM e DES', emoji:'🧩', pag:'Livro p. 72 a 74 e p. 131',
-       dica:'IN, IM e DES na frente da palavra deixam o sentido contrário: feliz → infeliz, fazer → desfazer. Antes de P e B usamos IM: impossível, imperfeito.'},
-  sob:{nome:'Sob e sobre', emoji:'⬆️', pag:'Livro p. 98 e 99',
-       dica:'SOB = embaixo. SOBRE = em cima. Dica: SOBRE é maior, fica EM CIMA!'},
-  sz:{nome:'Uso de S, SS e Z', emoji:'🐍', pag:'Livro p. 135 a 139 e p. 188',
-       dica:'S sozinho entre vogais tem som de Z (casa, mesa). Para ter som de S entre vogais usamos SS (pássaro, vassoura). Nenhuma palavra começa com SS. Algumas palavras usam o Z mesmo: natureza, zebra.'},
-  xch:{nome:'Uso de X e CH', emoji:'❌', pag:'Livro p. 188, 192 e 193',
-       dica:'Depois de ME e de EN usamos X (mexerica, enxada). Exceções: mecha, encher, enchente. Em exemplo, exato e exército o X tem som de Z.'},
-  num:{nome:'Singular e plural', emoji:'🐸🐸', pag:'Livro p. 162 a 168',
-       dica:'Singular = um só. Plural = mais de um, quase sempre com S no final. Quando uma palavra vai para o plural, as outras da frase vão junto: os touros são fortes.'},
-  gen:{nome:'Feminino e masculino', emoji:'👦👧', pag:'Fichas do caderno (p. 247)',
-       dica:'Se dá para usar O ou OS antes da palavra, ela é masculina (o sol). Se usamos A ou AS, ela é feminina (a flor).'},
-  int:{nome:'Interpretação de texto', emoji:'📖', pag:'Livro p. 131 e p. 165 a 168',
-       dica:'Leia a história com calma, duas vezes se precisar. Antes de marcar, volte ao texto e procure a resposta lá.'}
+  rel:{nome:'Relógio', emoji:'⏰', pag:'Livro p. 274 a 276 e p. 281 e 282',
+       dica:'Ponteiro PEQUENO = horas. Ponteiro GRANDE = minutos. Grande no 12 = hora exata. Grande no 6 = e meia (30 minutos). 1 hora = 60 minutos. 1 dia = 24 horas. Depois do meio-dia: 13 h = 1 da tarde, 14 h = 2 da tarde…'},
+  cal:{nome:'Calendário', emoji:'📅', pag:'Livro p. 277 e 278 e p. 281 e 282',
+       dica:'1 semana = 7 dias. 1 ano = 12 meses = 365 dias. Bimestre = 2 meses, trimestre = 3, semestre = 6. Os meses têm 30 ou 31 dias; fevereiro tem 28 ou 29. No calendário, procure o dia e suba até a letra da coluna.'},
+  tem:{nome:'Temperatura', emoji:'🌡️', pag:'Livro p. 281 e 282 e fichas do caderno',
+       dica:'Medimos a temperatura com o TERMÔMETRO, em graus Celsius (°C). Quanto maior o número, mais quente. Para achar a diferença, faça a conta de menos: maior − menor.'},
+  dt:{nome:'Dobro e triplo', emoji:'✌️', pag:'Livro p. 238, 242 e 243',
+      dica:'DOBRO é somar o número 2 vezes: dobro de 4 = 4 + 4 = 8. TRIPLO é somar 3 vezes: triplo de 4 = 4 + 4 + 4 = 12.'},
+  op:{nome:'Adição e subtração', emoji:'➕', pag:'Livro p. 172 a 180 e fichas do caderno',
+      dica:'Arme a conta com unidade embaixo de unidade, dezena embaixo de dezena. Comece sempre pelas unidades. Na adição, “vai 1”; na subtração, “empresta 1”.'},
+  prob:{nome:'Problemas', emoji:'🧩', pag:'Livro p. 172 a 180 e fichas do caderno',
+      dica:'Leia o problema duas vezes. Ganhou, juntou, ao todo, chegaram → conta de MAIS. Perdeu, deu, vendeu, sobrou, ficou, restou → conta de MENOS.'},
+  din:{nome:'Sistema monetário', emoji:'💰', pag:'Fichas do caderno (sistema monetário)',
+      dica:'O dinheiro do Brasil é o Real (R$). Some o valor das notas e moedas para saber o total. Troco = o que você pagou − o preço. 100 centavos = 1 real.'}
 };
 
 /* =========================================================
-   BANCO DE QUESTÕES
-   tipos: mc (múltipla escolha) | fill (complete a lacuna ___) | vf | type (escrever)
+   BANCO DE QUESTÕES — cada tema tem 3 blocos (Prova 1, 2 e 3)
+   tipos: mc (múltipla escolha) | type (escrever o número)
+   v = desenho que aparece junto da pergunta
    ========================================================= */
 const BANCO = {
- sin:[
-  {tipo:'mc', q:'Qual palavra é SINÔNIMO de bonito? (quer dizer a mesma coisa)', op:['lindo','feio','triste','baixo'], a:'lindo', exp:'Bonito e lindo querem dizer a mesma coisa. São sinônimos!'},
-  {tipo:'mc', q:'Qual é o ANTÔNIMO (o contrário) de alegria?', op:['tristeza','felicidade','risada','festa'], a:'tristeza', exp:'Alegria é o contrário de tristeza. Felicidade é sinônimo de alegria.'},
-  {tipo:'mc', q:'Qual palavra é SINÔNIMO de rápido?', op:['veloz','devagar','lento','parado'], a:'veloz', exp:'Rápido = veloz. Devagar e lento são antônimos de rápido.'},
-  {tipo:'mc', q:'O contrário de preguiçoso é…', op:['trabalhador','forte','dorminhoco','cansado'], a:'trabalhador', exp:'Preguiçoso é quem não gosta de fazer as coisas. O contrário é trabalhador (esforçado). Forte é o contrário de fraco!'},
-  {tipo:'fill', q:'O contrário de sortudo é ___.', op:['azarado','feliz','alegre'], a:'azarado', exp:'Sortudo × azarado: palavras de sentido contrário.'},
-  {tipo:'mc', q:'As palavras ACABAR e CONCLUIR são…', op:['sinônimos','antônimos','palavras no plural'], a:'sinônimos', exp:'Acabar e concluir querem dizer a mesma coisa, então são sinônimos.'},
-  {tipo:'mc', q:'Qual dupla é de ANTÔNIMOS?', op:['alto e baixo','belo e bonito','alegria e felicidade','acabar e concluir'], a:'alto e baixo', exp:'Alto e baixo têm sentidos contrários. As outras duplas são sinônimos.'},
-  {tipo:'fill', q:'De noite eu me deito. De manhã eu me ___.', op:['levanto','deito','durmo'], a:'levanto', exp:'Deitar × levantar: são antônimos.'},
-  {tipo:'mc', q:'Qual é o antônimo de quente?', op:['frio','calor','fervendo','morno'], a:'frio', exp:'Quente × frio. Dia quente, dia frio!'}
+ rel:[
+  // Prova 1
+  {tipo:'mc', v:relogio(3,0), q:'Que horas o relógio está marcando?', op:['3 horas','12 horas e 15 minutos','9 horas','4 horas'], a:'3 horas', exp:'O ponteiro pequeno está no 3 (horas) e o grande está no 12: é hora exata. São 3 horas.'},
+  {tipo:'mc', q:'Uma hora tem quantos minutos?', op:['60 minutos','30 minutos','24 minutos','100 minutos'], a:'60 minutos', exp:'1 hora = 60 minutos. Meia hora = 30 minutos.'},
+  {tipo:'type', un:'horas', q:'Um filme começou às 3 horas e terminou às 5 horas. Quantas horas durou o filme?', ans:['2'], exp:'De 3 até 5 passam 2 horas: 5 − 3 = 2.'},
+  // Prova 2
+  {tipo:'mc', v:relogio(8,30), q:'Que horas o relógio está marcando?', op:['8 horas e 30 minutos','6 horas e 40 minutos','8 horas','9 horas e 30 minutos'], a:'8 horas e 30 minutos', exp:'O ponteiro grande no 6 quer dizer 30 minutos (meia hora). O pequeno passou do 8. São 8 horas e 30 minutos.'},
+  {tipo:'mc', q:'Meia hora é o mesmo que…', op:['30 minutos','60 minutos','15 minutos','50 minutos'], a:'30 minutos', exp:'Meia hora é metade de 60 minutos: 30 minutos.'},
+  {tipo:'mc', q:'Às 14 horas, o relógio de ponteiros marca…', op:['2 horas da tarde','4 horas da tarde','2 horas da manhã','12 horas'], a:'2 horas da tarde', exp:'Depois do meio-dia, tiramos 12: 14 − 12 = 2. São 2 horas da tarde.'},
+  // Prova 3
+  {tipo:'mc', v:relogio(10,0), q:'Lucas vai dormir na hora que o relógio mostra. Que horas são?', op:['10 horas','2 horas','12 horas e 50 minutos','11 horas'], a:'10 horas', exp:'Ponteiro pequeno no 10 e grande no 12: são 10 horas em ponto.'},
+  {tipo:'mc', v:digital('18:00'), q:'O relógio digital marca 18:00. Que horas são?', op:['6 horas da tarde','8 horas da noite','6 horas da manhã','1 hora e 8 minutos'], a:'6 horas da tarde', exp:'18 − 12 = 6. São 6 horas da tarde.'},
+  {tipo:'mc', q:'Isabela fez a lição das 8 horas até as 10 horas e 30 minutos. Quanto tempo ela levou?', op:['2 horas e 30 minutos','2 horas','3 horas','30 minutos'], a:'2 horas e 30 minutos', exp:'De 8 até 10 são 2 horas. Mais 30 minutos: 2 horas e 30 minutos.'}
  ],
- pre:[
-  {tipo:'mc', q:'Qual palavra quer dizer o CONTRÁRIO de feliz?', op:['infeliz','desfeliz','imfeliz','felizinho'], a:'infeliz', exp:'Colocamos o prefixo IN: feliz → infeliz.'},
-  {tipo:'fill', q:'Complete com o prefixo certo: ___possível', op:['im','in','des'], a:'im', exp:'Antes de P e B usamos M: IMpossível.'},
-  {tipo:'mc', q:'Qual é o contrário de fazer?', op:['desfazer','infazer','imfazer','refazer'], a:'desfazer', exp:'Com o prefixo DES: fazer → desfazer.'},
-  {tipo:'mc', q:'Por que escrevemos IMperfeito com M, e não com N?', op:['Porque vem antes da letra P','Porque a palavra é grande','Porque começa com I'], a:'Porque vem antes da letra P', exp:'Regra de ouro: antes de P e B, sempre M! (imperfeito, impossível).'},
-  {tipo:'fill', q:'O nó estava apertado, mas o menino conseguiu ___amarrar a corda.', op:['des','in','im'], a:'des', exp:'Amarrar → desamarrar, com o prefixo DES.'},
-  {tipo:'mc', q:'Uma pessoa que NÃO é fiel é…', op:['infiel','desfiel','imfiel'], a:'infiel', exp:'Fiel → infiel, com o prefixo IN.'},
-  {tipo:'mc', q:'A sala estava cheia. Todos saíram e ela ficou…', op:['desocupada','inocupada','imocupada'], a:'desocupada', exp:'Ocupar → desocupar, com o prefixo DES.'},
-  {tipo:'mc', q:'Quem não é leal é…', op:['desleal','inleal','imleal'], a:'desleal', exp:'Leal → desleal, com o prefixo DES.'}
+ cal:[
+  // Prova 1
+  {tipo:'mc', v:calendario(2026,10,16), q:'Olhe o calendário. Em que dia da semana cai o dia 16 de novembro?', op:['segunda-feira','domingo','sábado','quarta-feira'], a:diaSemana(2026,10,16), exp:'Ache o 16 e suba até a letra da coluna: S de segunda-feira. É o dia da prova de Matemática!'},
+  {tipo:'mc', q:'Uma semana tem quantos dias?', op:['7 dias','5 dias','10 dias','30 dias'], a:'7 dias', exp:'Domingo, segunda, terça, quarta, quinta, sexta e sábado: 7 dias.'},
+  {tipo:'mc', q:'Quantos meses tem um ano?', op:['12 meses','10 meses','7 meses','24 meses'], a:'12 meses', exp:'De janeiro a dezembro são 12 meses.'},
+  // Prova 2
+  {tipo:'mc', v:calendario(2026,9), q:'Olhe o calendário de outubro. Quantas segundas-feiras tem esse mês?', op:['4','5','3','2'].map(String), a:String(contaDia(2026,9,1)), exp:'Conte os números da coluna S que vem depois do D: dias 5, 12, 19 e 26. São 4 segundas-feiras.'},
+  {tipo:'mc', q:'Qual mês vem DEPOIS de junho?', op:['julho','maio','agosto','setembro'], a:'julho', exp:'… maio, junho, JULHO, agosto…'},
+  {tipo:'mc', q:'Um semestre tem…', op:['6 meses','3 meses','12 meses','2 meses'], a:'6 meses', exp:'Semestre = 6 meses. Trimestre = 3 meses. Bimestre = 2 meses.'},
+  // Prova 3
+  {tipo:'mc', v:calendario(2026,10,13), q:'Dia 13 de novembro é sexta-feira. Que dia da semana será o dia 14?', op:['sábado','domingo','quinta-feira','segunda-feira'], a:diaSemana(2026,10,14), exp:'Depois da sexta-feira vem o sábado.'},
+  {tipo:'mc', q:'Qual destes meses tem só 28 ou 29 dias?', op:['fevereiro','março','dezembro','julho'], a:'fevereiro', exp:'Fevereiro é o mês mais curto: 28 dias (ou 29 em alguns anos).'},
+  {tipo:'mc', q:'Um ano tem quantos dias?', op:['365 dias','100 dias','30 dias','12 dias'], a:'365 dias', exp:'Um ano tem 365 dias (ou 366 quando fevereiro tem 29 dias).'}
  ],
- sob:[
-  {tipo:'fill', q:'O baú estava escondido ___ as raízes da árvore.', op:['sob','sobre'], a:'sob', exp:'As raízes ficam embaixo da terra. Embaixo = SOB.'},
-  {tipo:'fill', q:'Ao terminar o café, coloquei a xícara ___ a mesa.', op:['sob','sobre'], a:'sobre', exp:'A xícara fica em cima da mesa. Em cima = SOBRE.'},
-  {tipo:'fill', q:'O gato dormia ___ a cama, bem escondidinho lá embaixo.', op:['sob','sobre'], a:'sob', exp:'Lá embaixo da cama = SOB a cama.'},
-  {tipo:'fill', q:'O passarinho pousou ___ o telhado.', op:['sob','sobre'], a:'sobre', exp:'O passarinho ficou em cima do telhado = SOBRE.'},
-  {tipo:'mc', q:'A palavra SOB quer dizer…', op:['embaixo','em cima','do lado'], a:'embaixo', exp:'SOB = embaixo.'},
-  {tipo:'mc', q:'A palavra SOBRE quer dizer…', op:['em cima','embaixo','dentro'], a:'em cima', exp:'SOBRE = em cima.'},
-  {tipo:'fill', q:'Ficamos ___ o guarda-chuva para não nos molhar.', op:['sob','sobre'], a:'sob', exp:'Ficamos embaixo do guarda-chuva = SOB.'},
-  {tipo:'fill', q:'O homem andava ___ a grama.', op:['sob','sobre'], a:'sobre', exp:'Andamos em cima da grama = SOBRE.'}
+ tem:[
+  // Prova 1
+  {tipo:'mc', q:'Qual instrumento usamos para medir a temperatura?', op:['termômetro','relógio','balança','régua'], a:'termômetro', exp:'O termômetro mede a temperatura. O relógio mede o tempo e a balança mede o peso.'},
+  {tipo:'mc', v:termometros([['',25]]), q:'Que temperatura o termômetro está marcando?', op:['25 °C','20 °C','30 °C','15 °C'], a:'25 °C', exp:'A coluna vermelha parou no meio, entre o 20 e o 30: 25 °C.'},
+  {tipo:'type', un:'°C', q:'De manhã a temperatura era 18 °C. À tarde subiu para 26 °C. Quantos graus a temperatura subiu?', ans:['8'], exp:'Diferença = maior − menor: 26 − 18 = 8 °C.'},
+  // Prova 2
+  {tipo:'mc', q:'O símbolo °C quer dizer…', op:['graus Celsius','centímetros','calorias','metros'], a:'graus Celsius', exp:'°C = graus Celsius, a unidade de temperatura usada no Brasil.'},
+  {tipo:'mc', v:termometros([['Seg',30],['Ter',20],['Qua',35],['Qui',15]]), q:'Em qual dia fez MAIS calor?', op:['quarta-feira','segunda-feira','terça-feira','quinta-feira'], a:'quarta-feira', exp:'O termômetro de quarta-feira está mais alto: 35 °C. Quanto maior o número, mais quente.'},
+  {tipo:'mc', q:'A temperatura normal do nosso corpo fica mais ou menos em…', op:['36 °C','10 °C','80 °C','0 °C'], a:'36 °C', exp:'Nosso corpo fica perto de 36 °C. Quando passa de 37 °C, pode ser febre.'},
+  // Prova 3
+  {tipo:'mc', v:termometros([['6 h',15],['12 h',30],['18 h',25],['22 h',20]]), q:'Em qual horário a temperatura foi MENOR?', op:['6 horas','12 horas','18 horas','22 horas'], a:'6 horas', exp:'Às 6 horas o termômetro marcava só 15 °C, o número menor.'},
+  {tipo:'type', un:'°C', v:tabela(['Dia','Mínima','Máxima'],[['sexta-feira','18 °C','30 °C'],['sábado','21 °C','33 °C']]), q:'No sábado, qual foi a diferença entre a temperatura máxima e a mínima?', ans:['12'], exp:'33 − 21 = 12 °C.'},
+  {tipo:'mc', q:'Onde devemos guardar o sorvete para ele não derreter?', op:['no congelador','no armário','na mesa, ao sol','na mochila'], a:'no congelador', exp:'O sorvete precisa de temperatura bem baixa, por isso fica no congelador.'}
  ],
- sz:[
-  {tipo:'mc', q:'Em qual palavra o S tem som de Z?', op:['casa','sapo','pássaro','sol'], a:'casa', exp:'Em casa, o S está sozinho entre duas vogais, por isso tem som de Z.'},
-  {tipo:'fill', q:'Complete a palavra: va___oura', op:['ss','s','z'], a:'ss', exp:'Vassoura: o som é de S entre vogais, então usamos SS.'},
-  {tipo:'fill', q:'Complete a palavra: me___a', op:['s','ss','z'], a:'s', exp:'Mesa: S sozinho entre vogais com som de Z.'},
-  {tipo:'fill', q:'Complete a palavra: pá___aro', op:['ss','s','z'], a:'ss', exp:'Pássaro: som de S entre vogais pede SS.'},
-  {tipo:'fill', q:'A nature___a é muito bonita!', op:['z','s','ss'], a:'z', exp:'Natureza se escreve com Z, como beleza e certeza.'},
-  {tipo:'vf', q:'VERDADEIRO ou FALSO? Existem palavras que começam com SS.', a:'Falso', exp:'Nenhuma palavra começa com SS. O SS só aparece entre vogais.'},
-  {tipo:'vf', q:'VERDADEIRO ou FALSO? Quando o S aparece sozinho entre duas vogais, ele tem som de Z.', a:'Verdadeiro', exp:'Isso mesmo: casa, mesa, rosa, música.'},
-  {tipo:'mc', q:'Qual palavra está escrita CORRETAMENTE?', op:['tesouro','tessouro','tezouro'], a:'tesouro', exp:'Tesouro: S entre vogais com som de Z.'},
-  {tipo:'fill', q:'A ___ebra tem listras pretas e brancas.', op:['z','s','ss'], a:'z', exp:'Zebra começa com Z. No começo da palavra, o S tem som de S (sapo), então para som de Z usamos Z.'},
-  {tipo:'mc', q:'Em qual palavra o S tem som de S (e não de Z)?', op:['passado','rosa','música','asa'], a:'passado', exp:'Passado tem SS, por isso o som é de S. Nas outras, o S sozinho tem som de Z.'}
+ dt:[
+  // Prova 1
+  {tipo:'mc', q:'O DOBRO de 4 é…', op:['8','6','12','16'], a:'8', exp:'Dobro de 4 = 4 + 4 = 8.'},
+  {tipo:'type', q:'Qual é o TRIPLO de 3?', ans:['9'], exp:'Triplo de 3 = 3 + 3 + 3 = 9.'},
+  // Prova 2
+  {tipo:'type', q:'Qual é o DOBRO de 7?', ans:['14'], exp:'Dobro de 7 = 7 + 7 = 14.'},
+  {tipo:'mc', q:'Qual conta mostra o TRIPLO de 5?', op:['5 + 5 + 5','5 + 5','5 + 3','3 + 3'], a:'5 + 5 + 5', exp:'Triplo é somar o número 3 vezes: 5 + 5 + 5 = 15.'},
+  // Prova 3
+  {tipo:'type', un:'figurinhas', q:'Ana tem 6 figurinhas. Bia tem o DOBRO de figurinhas de Ana. Quantas figurinhas Bia tem?', ans:['12'], exp:'Dobro de 6 = 6 + 6 = 12.'},
+  {tipo:'mc', q:'O TRIPLO de 10 é…', op:['30','20','13','100'], a:'30', exp:'Triplo de 10 = 10 + 10 + 10 = 30.'}
  ],
- xch:[
-  {tipo:'fill', q:'Complete a palavra: me___erica', op:['x','ch'], a:'x', exp:'Depois de ME usamos X: mexerica, mexer, México.'},
-  {tipo:'fill', q:'Complete a palavra: en___ada', op:['x','ch'], a:'x', exp:'Depois de EN usamos X: enxada, enxame, enxergar.'},
-  {tipo:'fill', q:'O rio encheu e veio a en___ente.', op:['ch','x'], a:'ch', exp:'Enchente é uma exceção! Vem de cheio, por isso é com CH.'},
-  {tipo:'mc', q:'Em qual palavra o X tem som de Z?', op:['exemplo','caixa','mexer','lixeira'], a:'exemplo', exp:'Em exemplo, exato e exército, o X tem som de Z.'},
-  {tipo:'fill', q:'O lenhador cortava lenha com o seu ma___ado.', op:['ch','x'], a:'ch', exp:'Machado se escreve com CH, como riacho.'},
-  {tipo:'mc', q:'Com os óculos, o vovô consegue… Qual palavra está escrita CORRETAMENTE?', op:['enxergar','enchergar','emxergar'], a:'enxergar', exp:'Depois de EN usamos X: enxergar.'},
-  {tipo:'mc', q:'Em qual palavra o X tem som de CH?', op:['puxar','exato','exército','exemplo'], a:'puxar', exp:'Em puxar o X tem o som de CH. Nas outras, tem som de Z.'},
-  {tipo:'fill', q:'Não pode me___er no bolo antes da festa!', op:['x','ch'], a:'x', exp:'Depois de ME usamos X: mexer.'},
-  {tipo:'mc', q:'Guardei os brinquedos na… Qual palavra está escrita CORRETAMENTE?', op:['caixa','caicha','caxa'], a:'caixa', exp:'Caixa se escreve com X, como baixo e peixe.'}
+ op:[
+  // Prova 1
+  {tipo:'type', v:conta(45,'+',18), q:'Resolva a conta:', ans:['63'], exp:expConta(45,'+',18,63)},
+  {tipo:'type', v:conta(324,'+',107), q:'Resolva a conta:', ans:['431'], exp:expConta(324,'+',107,431)},
+  {tipo:'type', v:conta(85,'−',27), q:'Resolva a conta:', ans:['58'], exp:expConta(85,'−',27,58)},
+  // Prova 2
+  {tipo:'type', v:conta(258,'+',125), q:'Resolva a conta:', ans:['383'], exp:expConta(258,'+',125,383)},
+  {tipo:'type', v:conta(130,'−',29), q:'Resolva a conta:', ans:['101'], exp:expConta(130,'−',29,101)},
+  {tipo:'type', v:conta(333,'−',124), q:'Resolva a conta:', ans:['209'], exp:expConta(333,'−',124,209)},
+  // Prova 3
+  {tipo:'type', v:conta(552,'+',288), q:'Resolva a conta:', ans:['840'], exp:expConta(552,'+',288,840)},
+  {tipo:'type', v:conta(523,'−',258), q:'Resolva a conta:', ans:['265'], exp:expConta(523,'−',258,265)},
+  {tipo:'type', v:conta(392,'−',27), q:'Resolva a conta:', ans:['365'], exp:expConta(392,'−',27,365)}
  ],
- num:[
-  {tipo:'fill', q:'Uma maçã. Duas ___.', op:['maçãs','maçã','maçans'], a:'maçãs', exp:'Para mais de um, colocamos S no final: maçãs.'},
-  {tipo:'mc', q:'Qual palavra está no SINGULAR (é só um)?', op:['rapaz','rapazes','patos','sombras'], a:'rapaz', exp:'Rapaz é só um. Rapazes, patos e sombras estão no plural.'},
-  {tipo:'type', q:'Escreva no PLURAL: livro →', ans:['livros'], exp:'Livro → livros.'},
-  {tipo:'mc', q:'Passe para o plural: “O touro é forte.”', op:['Os touros são fortes.','Os touro é forte.','O touros são forte.'], a:'Os touros são fortes.', exp:'Quando o touro vai para o plural, as outras palavras vão junto: Os touros são fortes.'},
-  {tipo:'type', q:'Escreva no SINGULAR: dentes →', ans:['dente'], exp:'Dentes → dente (um só).'},
-  {tipo:'mc', q:'Qual é o plural de flor?', op:['flores','flors','floris'], a:'flores', exp:'Flor → flores. Algumas palavras ganham ES no plural.'},
-  {tipo:'mc', q:'Como fica “A rã é pequena” no plural?', op:['As rãs são pequenas.','As rã é pequena.','A rãs são pequena.'], a:'As rãs são pequenas.', exp:'Tudo vai para o plural junto: As rãs são pequenas.'},
-  {tipo:'type', q:'Escreva no PLURAL: bola →', ans:['bolas'], exp:'Bola → bolas.'},
-  {tipo:'mc', q:'Que letra usamos no fim da palavra para mostrar que é mais de um?', op:['S','A','O','M'], a:'S', exp:'A letra S no fim da palavra indica plural.'}
+ prob:[
+  // Prova 1
+  {tipo:'type', un:'lápis', q:'Pedro tinha 35 lápis de cor. Ganhou mais 28. Quantos lápis ele tem agora?', ans:['63'], exp:'Ganhou → conta de mais: 35 + 28 = 63 lápis.'},
+  {tipo:'type', un:'livros', q:'Na biblioteca havia 81 livros. Os alunos emprestaram 23. Quantos livros ficaram na biblioteca?', ans:['58'], exp:'Emprestaram (saíram) → conta de menos: 81 − 23 = 58 livros.'},
+  {tipo:'type', un:'figurinhas', q:'Ana tinha 16 figurinhas e deu 4 para sua irmã. Com quantas figurinhas ela ficou?', ans:['12'], exp:'Deu → conta de menos: 16 − 4 = 12 figurinhas.'},
+  // Prova 2
+  {tipo:'type', un:'carrinhos', q:'Uma loja tinha 86 carrinhos. Durante o dia, vendeu 42. Quantos carrinhos ficaram na loja?', ans:['44'], exp:'Vendeu → conta de menos: 86 − 42 = 44 carrinhos.'},
+  {tipo:'type', un:'crianças', q:'No 2º ano há 34 meninos e 38 meninas. Quantas crianças há ao todo?', ans:['72'], exp:'Ao todo → conta de mais: 34 + 38 = 72 crianças.'},
+  {tipo:'type', un:'figurinhas', q:'Pedro tinha 94 figurinhas. Deu 36 para o primo. Com quantas ficou?', ans:['58'], exp:'Deu → conta de menos: 94 − 36 = 58 figurinhas.'},
+  // Prova 3
+  {tipo:'type', un:'cadernos', q:'Uma papelaria tinha 67 cadernos e vendeu 29. Quantos cadernos restaram?', ans:['38'], exp:'Restaram → conta de menos: 67 − 29 = 38 cadernos.'},
+  {tipo:'type', un:'pessoas', q:'Num ônibus havia 25 pessoas. No ponto, subiram mais 17. Quantas pessoas há no ônibus agora?', ans:['42'], exp:'Subiram (chegaram) → conta de mais: 25 + 17 = 42 pessoas.'},
+  {tipo:'type', un:'laranjas', q:'A turma colheu 120 laranjas de manhã e 85 laranjas à tarde. Quantas laranjas colheu ao todo?', ans:['205'], exp:'Ao todo → conta de mais: 120 + 85 = 205 laranjas.'}
  ],
- gen:[
-  {tipo:'fill', q:'___ sol brilha no céu.', op:['O','A'], a:'O', exp:'Dizemos O sol, então sol é masculino.'},
-  {tipo:'fill', q:'___ flor é cheirosa.', op:['A','O'], a:'A', exp:'Dizemos A flor, então flor é feminino.'},
-  {tipo:'mc', q:'Qual palavra é do FEMININO?', op:['casa','céu','vento','sol'], a:'casa', exp:'A casa → feminino. O céu, o vento, o sol → masculino.'},
-  {tipo:'mc', q:'Qual palavra é do MASCULINO?', op:['vento','natureza','flor','casa'], a:'vento', exp:'O vento → masculino.'},
-  {tipo:'type', q:'Escreva o FEMININO de menino:', ans:['menina','a menina'], exp:'O menino → a menina.'},
-  {tipo:'mc', q:'O feminino de gato é…', op:['gata','gatinho','gatos'], a:'gata', exp:'O gato → a gata.'},
-  {tipo:'mc', q:'Dizemos “A natureza”. Então natureza é…', op:['feminino','masculino'], a:'feminino', exp:'Se usamos A antes do nome, ele é feminino.'},
-  {tipo:'type', q:'Escreva o FEMININO de professor:', ans:['professora','a professora'], exp:'O professor → a professora.'}
+ din:[
+  // Prova 1
+  {tipo:'mc', v:dinheiro([10,5,2]), q:'Quanto dinheiro tem aqui?', op:['R$ 17,00','R$ 15,00','R$ 12,00','R$ 20,00'], a:'R$ 17,00', exp:'10 + 5 + 2 = 17. Total: R$ 17,00.'},
+  {tipo:'type', un:'reais', q:'Comprei um bolinho de R$ 6,00 e paguei com uma nota de R$ 10,00. Quanto recebi de troco?', ans:['4'], exp:'Troco = pagou − preço: 10 − 6 = R$ 4,00.'},
+  {tipo:'mc', q:'Qual é o nome do dinheiro do Brasil?', op:['Real','Dólar','Peso','Euro'], a:'Real', exp:'O dinheiro do Brasil é o Real. O símbolo é R$.'},
+  // Prova 2
+  {tipo:'mc', v:dinheiro([20,20,5]), q:'Quanto dinheiro tem aqui?', op:['R$ 45,00','R$ 40,00','R$ 25,00','R$ 50,00'], a:'R$ 45,00', exp:'20 + 20 + 5 = 45. Total: R$ 45,00.'},
+  {tipo:'mc', q:'Como escrevemos R$ 50,00 por extenso?', op:['cinquenta reais','cinco reais','quinhentos reais','quinze reais'], a:'cinquenta reais', exp:'50 = cinquenta. R$ 50,00 = cinquenta reais.'},
+  {tipo:'type', un:'reais', v:tabela(['Lanche','Preço'],[['🌭 Cachorro-quente','R$ 10,00'],['🧃 Suco','R$ 6,00'],['🍿 Pipoca','R$ 5,00']]), q:'Luciana comprou um cachorro-quente e um suco. Quanto ela gastou?', ans:['16'], exp:'10 + 6 = 16. Ela gastou R$ 16,00.'},
+  // Prova 3
+  {tipo:'mc', v:dinheiro(['50¢','50¢']), q:'Quantas moedas de 50 centavos formam 1 real?', op:['2','5','10','50'], a:'2', exp:'50 centavos + 50 centavos = 100 centavos = 1 real.'},
+  {tipo:'type', un:'reais', q:'A calça custava R$ 62,00. Paguei com duas notas de R$ 50,00. Quanto recebi de troco?', ans:['38'], exp:'Duas notas de 50 = R$ 100,00. Troco: 100 − 62 = R$ 38,00.'},
+  {tipo:'mc', v:dinheiro([20,10,2]), q:'Lucas tem este dinheiro. Ele quer comprar um brinquedo de R$ 35,00. O que acontece?', op:['Não dá: faltam R$ 3,00','Dá, e sobram R$ 3,00','Dá certinho','Não dá: faltam R$ 13,00'], a:'Não dá: faltam R$ 3,00', exp:'20 + 10 + 2 = R$ 32,00. Para chegar em 35 faltam 3 reais.'}
  ]
 };
 
-/* ============ HISTÓRIAS (interpretação) ============ */
-const HISTORIAS = [
- {titulo:'A rã e o touro', emoji:'🐸🐂',
-  texto:['Numa lagoa morava uma rã pequenina. Um dia, ela viu um touro enorme bebendo água.',
-         '— Nossa! Eu também quero ser grande assim! — disse a rã.',
-         'Então ela começou a encher a barriga de ar. Inchou, inchou, inchou…',
-         '— Já estou do tamanho dele? — perguntou às amigas.',
-         '— Ainda não! — responderam as outras rãs.',
-         'A rã inchou mais um pouquinho, até que… POF! Murchou de uma vez e caiu cansada na beira da lagoa.'],
-  moral:'Moral: cada um tem o seu tamanho. Não precisamos querer ser iguais aos outros!',
-  qs:[
-   {tipo:'mc', q:'Quem a rã viu bebendo água na lagoa?', op:['um touro','um sapo','um cisne','um corvo'], a:'um touro', exp:'No começo da história, a rã vê um touro enorme bebendo água.'},
-   {tipo:'mc', q:'O que a rã queria?', op:['Ficar grande como o touro','Nadar mais rápido','Comer insetos','Ir embora da lagoa'], a:'Ficar grande como o touro', exp:'Ela disse: “Eu também quero ser grande assim!”'},
-   {tipo:'mc', q:'Qual é o ensinamento (a moral) da história?', op:['Cada um tem o seu tamanho e devemos gostar de quem somos','Devemos comer muito para crescer','Rãs não gostam de touros'], a:'Cada um tem o seu tamanho e devemos gostar de quem somos', exp:'A moral está no final: não precisamos querer ser iguais aos outros.'},
-   {tipo:'mc', q:'Na história, a rã era “pequenina” e o touro era…', op:['enorme','baixinho','pequeno'], a:'enorme', exp:'Pequenina × enorme: são antônimos!'}
-  ]},
- {titulo:'As abelhas e o apicultor', emoji:'🐝🍯',
-  texto:['O apicultor é a pessoa que cuida das abelhas e recolhe o mel.',
-         'Certo dia, o apicultor saiu de casa. Enquanto ele estava fora, um ladrão chegou de mansinho e roubou todo o mel das colmeias.',
-         'Quando o apicultor voltou, foi ver as caixas das abelhas. As abelhas, muito bravas, voaram sobre ele e o picaram!',
-         '— Ai, ai! Vocês deixaram o ladrão ir embora e agora picam justo eu, que cuido de vocês todos os dias? — reclamou o apicultor.'],
-  moral:'Moral: devemos pensar bem antes de culpar alguém. Às vezes ficamos bravos com quem só quer nos ajudar.',
-  qs:[
-   {tipo:'mc', q:'O que é um apicultor?', op:['A pessoa que cuida das abelhas','Um tipo de abelha','Um ladrão de mel'], a:'A pessoa que cuida das abelhas', exp:'A primeira frase do texto explica: o apicultor cuida das abelhas e recolhe o mel.'},
-   {tipo:'mc', q:'Quem roubou o mel das colmeias?', op:['Um ladrão','O apicultor','As abelhas','Um urso'], a:'Um ladrão', exp:'Enquanto o apicultor estava fora, um ladrão roubou o mel.'},
-   {tipo:'mc', q:'Por que o apicultor ficou chateado?', op:['As abelhas picaram justo quem cuida delas','Ele não gosta de mel','Choveu muito naquele dia'], a:'As abelhas picaram justo quem cuida delas', exp:'Ele reclamou: as abelhas deixaram o ladrão ir e picaram quem cuida delas.'},
-   {tipo:'mc', q:'“As abelhas voaram SOBRE ele.” A palavra SOBRE quer dizer…', op:['em cima','embaixo','longe'], a:'em cima', exp:'SOBRE = em cima. As abelhas voaram em cima do apicultor.'}
-  ]},
- {titulo:'O corvo e o cisne', emoji:'🐦‍⬛🦢',
-  texto:['Um corvo de penas bem pretas vivia perto das casas, onde sempre encontrava comida.',
-         'Um dia, ele viu um cisne branquinho nadando no lago e ficou com inveja.',
-         '— Aposto que ele é branco porque vive se lavando na água! — pensou o corvo.',
-         'Então o corvo deixou a sua casa e foi morar no lago. Ele se lavava de manhã, de tarde e de noite… mas suas penas continuaram pretas!',
-         'E, como no lago não havia a comida de que ele gostava, o corvo ficou com muita fome.'],
-  moral:'Moral: não adianta querer ser igual ao outro. Cada um é especial do seu jeito.',
-  qs:[
-   {tipo:'mc', q:'Por que o corvo ficou com inveja do cisne?', op:['Queria ser branco como o cisne','Queria nadar como o cisne','Queria cantar como o cisne'], a:'Queria ser branco como o cisne', exp:'O corvo viu o cisne branquinho e quis ter as penas brancas também.'},
-   {tipo:'mc', q:'O que aconteceu com as penas do corvo depois de tanto se lavar?', op:['Continuaram pretas','Ficaram brancas','Caíram todas'], a:'Continuaram pretas', exp:'O texto diz: “mas suas penas continuaram pretas!”'},
-   {tipo:'mc', q:'Por que o corvo ficou com fome?', op:['No lago não tinha a comida de que ele gostava','Ele esqueceu de comer','O cisne comeu a comida dele'], a:'No lago não tinha a comida de que ele gostava', exp:'O corvo saiu de perto das casas, onde achava comida.'},
-   {tipo:'mc', q:'Qual é o antônimo de “branco”, que aparece na história?', op:['preto','branquinho','claro'], a:'preto', exp:'Branco × preto: são antônimos. O cisne era branco e o corvo, preto.'}
-  ]}
-];
-
 /* ============ ESTADO ============ */
 const S = {nome:'', modo:'prova', qs:[], i:0, resp:[], sel:null, confirmado:false, prova:0, dica:false, notas:{}};
-// Por prova: 16 questões de conteúdo + 4 de interpretação = 20. As 3 provas não repetem perguntas.
-const QUANT = {sin:3, pre:2, sob:2, sz:2, xch:3, num:2, gen:2};
+// Por prova: 3+3+3+2+3+3+3 = 20 questões. As 3 provas não repetem perguntas.
+const QUANT = {rel:3, cal:3, tem:3, dt:2, op:3, prob:3, din:3};
 const NOMES_PROVA = ['Prova 1','Prova 2','Prova 3'];
-try{ S.notas = JSON.parse(localStorage.getItem('altaneiro-port-3tri-notas')||'{}'); }catch(e){ S.notas = {}; }
-function salvarNota(p, c, t){ S.notas[p] = {c,t}; try{ localStorage.setItem('altaneiro-port-3tri-notas', JSON.stringify(S.notas)); }catch(e){} }
+try{ S.notas = JSON.parse(localStorage.getItem('altaneiro-mat-3tri-notas')||'{}'); }catch(e){ S.notas = {}; }
+function salvarNota(p, c, t){ S.notas[p] = {c,t}; try{ localStorage.setItem('altaneiro-mat-3tri-notas', JSON.stringify(S.notas)); }catch(e){} }
 const app = document.getElementById('app');
 
 const embaralha = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const norm = s => String(s).trim().toLowerCase().replace(/\s+/g,' ').replace(/[.!]+$/,'');
+const norm = s => String(s).replace(/[^\d,]/g,'').replace(/,0+$/,'').replace(/^0+(?=\d)/,'');
 
 function preparar(q, top, hist){
   const n = Object.assign({}, q, {top});
@@ -315,10 +394,7 @@ function montarProva(p){
   for(const t in QUANT){
     BANCO[t].slice(p*QUANT[t], (p+1)*QUANT[t]).forEach(q => lista.push(preparar(q, t)));
   }
-  lista = embaralha(lista);
-  const h = HISTORIAS[p];
-  h.qs.forEach(q => lista.push(preparar(q, 'int', h)));
-  return lista;
+  return embaralha(lista);
 }
 
 function acertou(q, r){
@@ -342,9 +418,9 @@ function falar(txt){
 function telaInicio(){
   app.innerHTML = `
   <section class="card">
-    <h2>Oi! Eu sou a Rãzinha Lili 🐸</h2>
-    <p>Vamos fazer uma missão de Português? São <b>20 perguntas</b> sobre tudo o que você estudou.
-       Leia com calma, escolha a resposta e clique em <b>Confirmar</b>. No final eu te mostro o que você acertou e o que vale a pena treinar mais!</p>
+    <h2>Oi! Eu sou a Corujinha Nina 🦉</h2>
+    <p>Vamos fazer uma missão de Matemática? São <b>20 perguntas</b> sobre tudo o que você estudou.
+       Leia com calma, use papel e lápis para fazer as contas, escolha a resposta e clique em <b>Confirmar</b>. No final eu te mostro o que você acertou e o que vale a pena treinar mais!</p>
     <label for="nome"><b>Qual é o seu nome?</b></label>
     <input type="text" id="nome" placeholder="Escreva seu nome aqui" maxlength="30" value="${esc(S.nome)}">
     <p style="margin:16px 0 4px"><b>Como você quer jogar?</b></p>
@@ -356,7 +432,7 @@ function telaInicio(){
     <div class="modos">
       ${NOMES_PROVA.map((n,k)=>{
         const nt = S.notas[k];
-        return `<div class="modo ${S.prova===k?'on':''}" data-p="${k}"><b>${['🐸','🐝','🦢'][k]} ${n}</b>
+        return `<div class="modo ${S.prova===k?'on':''}" data-p="${k}"><b>${['⏰','🌡️','💰'][k]} ${n}</b>
           <span>${nt ? '✅ Feita: '+nt.c+'/'+nt.t+' acertos' : 'Ainda não feita'}</span></div>`;
       }).join('')}
     </div>
@@ -413,8 +489,9 @@ function telaPergunta(){
       <p class="moral">${esc(q.hist.moral)}</p></div>`;
   }
   corpo += `<div class="pergunta">${textoPergunta(q, S.sel)}</div>`;
+  if(q.v) corpo += `<div class="vis">${q.v}</div>`;
   if(q.tipo==='type'){
-    corpo += `<input type="text" id="campo" autocomplete="off" placeholder="Escreva aqui" value="${S.sel?esc(S.sel):''}" ${S.confirmado?'disabled':''}>`;
+    corpo += `<div class="resp-num"><input type="text" id="campo" inputmode="numeric" autocomplete="off" placeholder="?" value="${S.sel?esc(S.sel):''}" ${S.confirmado?'disabled':''}>${q.un?`<span>${esc(q.un)}</span>`:''}</div>`;
   } else {
     corpo += `<div class="opcoes">${q.ops.map((o,k)=>{
       let cls = 'op';
@@ -426,7 +503,7 @@ function telaPergunta(){
   let fb = '';
   if(S.confirmado && S.modo==='treino'){
     const ok = acertou(q, S.sel);
-    const certa = q.tipo==='type' ? q.ans[0] : q.a;
+    const certa = q.tipo==='type' ? q.ans[0]+(q.un?' '+q.un:'') : q.a;
     fb = ok ? `<div class="feedback ok">🎉 Muito bem! Você acertou! <br>💡 ${esc(q.exp)}</div>`
             : `<div class="feedback no">🤔 Quase! A resposta certa é <b>${esc(certa)}</b>.<br>💡 ${esc(q.exp)}</div>`;
   }
@@ -448,7 +525,7 @@ function telaPergunta(){
     ${corpo}
     ${fb}
     <div class="acoes">
-      <span style="color:var(--muted);font-size:16px">${S.nome ? '🐸 Força, '+esc(S.nome)+'!' : ''}</span>
+      <span style="color:var(--muted);font-size:16px">${S.nome ? '🦉 Força, '+esc(S.nome)+'!' : ''}</span>
       ${botao}
     </div>
   </section>`;
@@ -507,11 +584,11 @@ function telaResultado(){
   if(!S.treinoErros) salvarNota(S.prova, certos, tot);
   const proxima = S.prova < NOMES_PROVA.length-1 ? S.prova+1 : null;
   const estrelas = pct===1?5: pct>=.85?4: pct>=.7?3: pct>=.5?2:1;
-  const msg = pct===1 ? 'UAU! Você acertou TUDO! Você é um craque do Português! 🏆'
+  const msg = pct===1 ? 'UAU! Você acertou TUDO! Você é um craque da Matemática! 🏆'
             : pct>=.85 ? 'Excelente! Faltou bem pouquinho para gabaritar! 🌟'
             : pct>=.7 ? 'Muito bom! Revise os pontos abaixo e você vai arrasar! 💪'
             : pct>=.5 ? 'Bom esforço! Vamos treinar mais um pouco os temas abaixo. 📚'
-            : 'Não desanime! Toda missão fica mais fácil com treino. Vamos revisar juntos! 🐸';
+            : 'Não desanime! Toda missão fica mais fácil com treino. Vamos revisar juntos! 🦉';
 
   // por tema
   const porTema = {};
@@ -526,7 +603,7 @@ function telaResultado(){
 
   const erros = S.qs.map((q,k)=>({q,k,r:S.resp[k]})).filter(o=>!acertou(o.q,o.r));
   const listaErros = erros.map(({q,k,r})=>{
-    const certa = q.tipo==='type' ? q.ans[0] : q.a;
+    const certa = q.tipo==='type' ? q.ans[0]+(q.un?' '+q.un:'') : q.a;
     return `<div class="erro">
       <div><span class="tag">${TOPICOS[q.top].emoji} ${TOPICOS[q.top].nome}</span> <span class="num">Pergunta ${k+1}</span></div>
       ${q.hist?`<div class="r">📖 História: <b>${esc(q.hist.titulo)}</b></div>`:''}
@@ -546,7 +623,7 @@ function telaResultado(){
   const data = new Date().toLocaleDateString('pt-BR');
   app.innerHTML = `
   <section class="card placar">
-    <div style="font-size:60px">${pct>=.7?'🏆':'🐸'}</div>
+    <div style="font-size:60px">${pct>=.7?'🏆':'🦉'}</div>
     <h2>${S.treinoErros?'Treino completo':NOMES_PROVA[S.prova]+' completa'}${S.nome?', '+esc(S.nome):''}!</h2>
     <div class="estrelas">${'⭐'.repeat(estrelas)}${'☆'.repeat(5-estrelas)}</div>
     <div class="nota">${certos}/${tot}</div>
@@ -577,7 +654,7 @@ function telaResultado(){
       <button class="btn azul" id="nova">📋 Escolher prova</button>
       <button class="btn branco" id="imprimir">🖨️ Imprimir resultado</button>
     </div>
-    <p style="text-align:center;color:var(--muted);font-size:16px;margin-bottom:0">${proxima!==null?'A próxima prova tem perguntas e uma história diferentes!':'Você chegou à última prova! 🎉'}</p>
+    <p style="text-align:center;color:var(--muted);font-size:16px;margin-bottom:0">${proxima!==null?'A próxima prova tem 20 perguntas diferentes!':'Você chegou à última prova! 🎉'}</p>
   </section>`;
 
   if(pct>=.8) confete();
@@ -597,33 +674,26 @@ function telaResultado(){
 function telaImpressao(p, comGab){
   document.body.classList.add('imprimindo');
   document.querySelectorAll('.confete,.toast').forEach(el => el.remove());
-  const lista = montarProva(p);
-  const conteudo = lista.filter(q => !q.hist);
-  const hist = lista.find(q => q.hist)?.hist;
-  const leitura = lista.filter(q => q.hist);
+  // no papel, as perguntas ficam agrupadas por tema
+  const ordem = Object.keys(QUANT);
+  const todas = montarProva(p).sort((a,b) => ordem.indexOf(a.top) - ordem.indexOf(b.top));
   const L = 'ABCD';
   const respostaCerta = q => {
-    if(q.tipo==='type') return q.ans[0];
-    const k = q.ops.indexOf(q.a);
-    return `(${L[k]}) ${q.a}`;
+    if(q.tipo==='type') return q.ans[0]+(q.un?' '+q.un:'');
+    return `(${L[q.ops.indexOf(q.a)]}) ${q.a}`;
   };
-
   const blocoQ = (q, n) => {
-    const t = TOPICOS[q.top];
-    let enun = esc(q.q);
-    if(q.tipo==='fill') enun = enun.replace('___', '<span class="blank"></span>');
-    let resp = '';
-    if(q.tipo==='type') resp = '<div class="linha"></div>';
+    let resp;
+    if(q.tipo==='type') resp = `<div class="resp-imp">Resposta: <i></i> ${q.un?esc(q.un):''}</div>`;
     else resp = `<div class="ops">${q.ops.map((o,k)=>`<span><b>${L[k]}</b>${esc(o)}</span>`).join('')}</div>`;
-    return `<div class="qi"><span class="n">${n}.</span>${enun}${q.top!=='int'?`<span class="tm">${t.emoji} ${t.nome}</span>`:''}${resp}</div>`;
+    return `<div class="qi"><span class="n">${n}.</span>${esc(q.q)}${q.v?`<div class="vis">${q.v}</div>`:''}${resp}</div>`;
   };
+  let html = '', atual = null;
+  todas.forEach((q,k) => {
+    if(q.top !== atual){ atual = q.top; html += `<div class="secao">${TOPICOS[q.top].emoji} ${TOPICOS[q.top].nome}</div>`; }
+    html += blocoQ(q, k+1);
+  });
 
-  let n = 0;
-  const qsConteudo = conteudo.map(q => blocoQ(q, ++n)).join('');
-  const qsLeitura = leitura.map(q => blocoQ(q, ++n)).join('');
-
-  // gabarito
-  const todas = [...conteudo, ...leitura];
   const porTema = {};
   todas.forEach((q,k) => (porTema[q.top] ||= []).push(k+1));
   const gab = !comGab ? '' : `
@@ -647,22 +717,18 @@ function telaImpressao(p, comGab){
     <button class="btn verde" id="imprimirFolha">🖨️ Imprimir agora</button>
   </div>
   <div class="folha">
-    <h1>🐸 Missão Português – ${NOMES_PROVA[p]}</h1>
+    <h1>🦉 Missão Matemática – ${NOMES_PROVA[p]}</h1>
     <p class="subt">2º ano • Revisão do 3º trimestre</p>
     <div class="cab">
       <div>Nome: <i>${S.nome?esc(S.nome):''}</i></div>
       <div>Data: <i></i></div>
     </div>
     <div class="instr">
-      <p>✏️ Leia cada pergunta com calma.</p>
-      <p>🔵 Pinte a bolinha da resposta certa. Quando tiver um espaço em branco, escreva a palavra que falta.</p>
+      <p>✏️ Leia cada pergunta com calma. Faça as contas no espaço ao lado ou no verso da folha.</p>
+      <p>🔵 Pinte a bolinha da resposta certa. Quando tiver “Resposta: ____”, escreva o número.</p>
       <p>🔍 Antes de entregar, confira tudo de novo!</p>
     </div>
-    <div class="secao">Parte 1 – Palavras e letras</div>
-    ${qsConteudo}
-    <div class="secao" style="break-before:page">Parte 2 – Leitura e interpretação</div>
-    ${hist ? `<div class="hist-imp"><h3>${hist.emoji} ${esc(hist.titulo)}</h3>${hist.texto.map(t=>`<p>${esc(t)}</p>`).join('')}<p><b>${esc(hist.moral)}</b></p></div>` : ''}
-    ${qsLeitura}
+    ${html}
     <p style="text-align:center;margin-top:16px;font-weight:700">Parabéns, você terminou! 🌟</p>
     ${gab}
   </div>`;
@@ -677,7 +743,7 @@ function toast(txt){
   document.body.appendChild(d); setTimeout(()=>d.remove(), 1300);
 }
 function confete(){
-  const em = ['🎉','⭐','🐸','🌟','🎈','💜'];
+  const em = ['🎉','⭐','🦉','🌟','🔢','💜'];
   for(let k=0;k<40;k++){
     const d = document.createElement('div'); d.className='confete';
     d.textContent = em[k%em.length];
